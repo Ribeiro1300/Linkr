@@ -5,7 +5,7 @@ import Loader from "react-loader-spinner";
 import { getPosts } from "./TestData";
 
 export default function Timeline() {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   let allPosts = getPosts;
   // useEffect(() => {
   //   getPosts(config)
