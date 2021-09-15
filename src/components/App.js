@@ -2,9 +2,9 @@ import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import TopBar from "./TopBar";
 import Login from "./Login";
-import Feed from "./Feed";
+import Timeline from "./Timeline";
 import Trending from "./Trending";
-
+import Profile from "./Profile";
 export default function App() {
   return (
     <BrowserRouter>
@@ -12,9 +12,14 @@ export default function App() {
         <Route path="/" exact>
           <Login />
         </Route>
-        <Route path="/feed">
+        <Route path="/timeline">
           <TopBar />
-          <Feed />
+          <Timeline />
+          <Trending />
+        </Route>
+        <Route path="/user/:id" exact>
+          <TopBar />
+          <Profile />
           <Trending />
         </Route>
       </Switch>

@@ -6,7 +6,6 @@ import styled from "styled-components";
 
 const Container = styled.div`
   width: 100%;
-  height: 100vh;
   background-color: #696969;
   margin-top: 70px;
   display: flex;
@@ -30,11 +29,5 @@ const NewPost = styled.div`
   border-radius: 10px;
   margin-bottom: 30px;
 `;
-const Posts = styled.div`
-  width: 100%;
-  height: 280px;
-  background-color: #171717;
-  border-radius: 10px;
-  margin-bottom: 30px;
-`;
-export { Container, PageTitle, Content, NewPost, Posts };
+
+export { Container, PageTitle, Content, NewPost };
