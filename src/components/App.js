@@ -12,6 +12,9 @@ export default function App() {
         <Route path="/" exact>
           <Login />
         </Route>
+        <Route path="/signUp" exact>
+
+        </Route>
         <Route path="/feed">
           <TopBar />
           <Feed />
