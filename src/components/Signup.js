@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useHistory,Link } from "react-router-dom";
 import { Banner, Form, LoginStyle, LoginWrapper, SigninOrSignup,Button} from "../styles/LoginStyles";
 import { SignupReq } from "./Api";
@@ -9,17 +9,29 @@ export default function Signup () {
     const [password,setPassword] = useState('');
     const [username,setUsername] = useState('')
     const [pictureUrl, setPicture] = useState('')
-    const [token,setToken] = useState(localStorage.getItem('token') || '')
-    const histoy = useHistory()
+    const [response,setResponse] = useState();
     
-    function submitSignup() {
+    const history = useHistory()
+    
+    useEffect(() => {
+        if (localStorage.getItem('token') !== null) {
+          history.push("/timeline",response)
+          return
+        }
+        if (response !== undefined) {
+          localStorage.setItem('token', response.token)
+          history.push("/timeline",response)
+        }
+      },[response])
+
+    function submitSignup(e) {
+        e.preventDefault();
         const promise = SignupReq({email,password,username,pictureUrl});
         promise
-        .then(res => setToken(res.data.token))
+        .then(res => setResponse(res.data))
         .catch(err => alert(err.request));
-        localStorage.setItem('token', token)
-        histoy.push("/timeline")
     }
+
     return (
         <LoginWrapper>
             <Banner>
@@ -29,7 +41,7 @@ export default function Signup () {
                 </div>
             </Banner>
             <LoginStyle>
-                <Form onSubmit={() => submitSignup()}>
+                <Form onSubmit={(e) => submitSignup(e)}>
                     <input value={email} type='email' placeholder='e-mail' onChange={(e) => setEmail(e.target.value)}></input>
                     <input value={password} type='password' placeholder='password' onChange={(e) => setPassword(e.target.value)}></input>
                     <input value={username} placeholder='username' onChange={(e) => setUsername(e.target.value)}></input>

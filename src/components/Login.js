@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { Banner, Button, Form, LoginStyle, LoginWrapper, SigninOrSignup } from "../styles/LoginStyles";
 import { LoginReq } from "./Api";
@@ -7,21 +7,27 @@ export default function Login() {
 
   const [email,setEmail] = useState('');
   const [password,setPassword] = useState('');
-  const [token,setToken] = useState(localStorage.getItem('token') || '')
-  const histoy = useHistory()
+  const [response,setResponse] = useState();
+  
+  const history = useHistory();
 
-  function submitLogin(){
-    if (token != '') {
-      histoy.push("/timeline")
+  useEffect(() => {
+    if (localStorage.getItem('token') !== null) {
+      history.push("/timeline",response)
       return
     }
+    if (response !== undefined) {
+      localStorage.setItem('token', response.token)
+      history.push("/timeline",response)
+    }
+  },[response])
+
+  function submitLogin(e){
+    e.preventDefault();
     const promise = LoginReq({email,password});
     promise
-      .then(res => setToken(res.data.token))
+      .then(res => setResponse(res.data))
       .catch(err => alert(err.request));
-    if (token === '') return
-    localStorage.setItem('token', token)
-    histoy.push("/timeline")
   }
 
   return (
@@ -33,7 +39,7 @@ export default function Login() {
         </div>
       </Banner>
       <LoginStyle>
-        <Form onSubmit={() => submitLogin()}>
+        <Form onSubmit={(e) => submitLogin(e)}>
           <input value={email} type='email' placeholder='e-mail' onChange={(e) => setEmail(e.target.value)}></input>
           <input value={password} type='password' placeholder='password' onChange={(e) => setPassword(e.target.value)}></input>
           <Button type='submit'>Log In</Button>
