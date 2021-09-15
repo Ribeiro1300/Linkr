@@ -5,6 +5,7 @@ import Login from "./Login";
 import Timeline from "./Timeline";
 import Trending from "./Trending";
 import Profile from "./Profile";
+import Signup from "./Signup";
 export default function App() {
   return (
     <BrowserRouter>
@@ -13,7 +14,7 @@ export default function App() {
           <Login />
         </Route>
         <Route path="/signUp" exact>
-
+          <Signup />
         </Route>
         <Route path="/timeline">
           <TopBar />
