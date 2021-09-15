@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { Banner, Button, Form, LoginStyle, LoginWrapper, SigninOrSignup } from "../styles/LoginStyles";
-import LoginReq from "./Api";
+import { LoginReq } from "./Api";
 
 export default function Login() {
 
@@ -11,11 +11,16 @@ export default function Login() {
   const histoy = useHistory()
 
   function submitLogin(){
+    if (token != '') {
+      histoy.push("/timeline")
+      return
+    }
     const promise = LoginReq({email,password});
     promise
       .then(res => setToken(res.data.token))
       .catch(err => alert(err.request));
     if (token === '') return
+    localStorage.setItem('token', token)
     histoy.push("/timeline")
   }
 
