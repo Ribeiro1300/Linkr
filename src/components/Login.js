@@ -16,8 +16,7 @@ export default function Login() {
       .then(res => setToken(res.data.token))
       .catch(err => alert(err.request));
     if (token === '') return
-    console.log(token)
-    histoy.push("/feed")
+    histoy.push("/timeline")
   }
 
   return (
