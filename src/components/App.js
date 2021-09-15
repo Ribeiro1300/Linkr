@@ -6,6 +6,7 @@ import Timeline from "./Timeline";
 import Trending from "./Trending";
 import Profile from "./Profile";
 import Signup from "./Signup";
+import Hashtag from "./Hashtag";
 export default function App() {
   return (
     <BrowserRouter>
@@ -24,6 +25,11 @@ export default function App() {
         <Route path="/user/:id" exact>
           <TopBar />
           <Profile />
+          <Trending />
+        </Route>
+        <Route path="/hashtag/:hashtag" exact>
+          <TopBar />
+          <Hashtag />
           <Trending />
         </Route>
       </Switch>
