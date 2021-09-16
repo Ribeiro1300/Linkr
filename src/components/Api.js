@@ -9,20 +9,26 @@ function LoginReq(body) {
 
 function SignupReq(body) {
   return axios.post(
-    "https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/sign-up",
+    "https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/sign-up",
     body
   );
 }
 function HashtagReq(hashtag) {
+  const config = {headers: {
+    "Authorization" : `Bearer ${localStorage.getItem("auth")}`
+    }
+  }
   return axios.get(
-    `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/hashtags/${hashtag}/posts`,
-    localStorage.getItem("config")
+    `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/hashtags/${hashtag}/posts`, config
   );
 }
 function getPosts() {
+  const config = {headers: {
+    "Authorization" : `Bearer ${localStorage.getItem("auth")}`
+    }
+  }
   return axios.get(
-    `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/posts`,
-    localStorage.getItem("config")
+    `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/posts`, config
   );
 }
 

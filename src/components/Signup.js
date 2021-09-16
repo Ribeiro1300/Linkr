@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useHistory, Link } from "react-router-dom";
 import {
   Banner,
@@ -9,24 +9,38 @@ import {
   Button,
 } from "../styles/LoginStyles";
 import { SignupReq } from "./Api";
-
+import React from "react";
 export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [pictureUrl, setPicture] = useState("");
-  const [token, setToken] = useState(localStorage.getItem("token") || "");
-  const histoy = useHistory();
+  const [response, setResponse] = useState();
+  const [isLoading, setLoading] = useState(false);
 
-  function submitSignup(event) {
+  const history = useHistory();
+
+  function submitSignup(e) {
+    e.preventDefault();
+    if (
+      email === "" ||
+      password === "" ||
+      username === "" ||
+      pictureUrl === ""
+    ) {
+      alert("Preencha todos os campos");
+      return;
+    }
     const promise = SignupReq({ email, password, username, pictureUrl });
     promise
-      .then((res) => setToken(res.data.token))
-      .catch((err) => alert(err.request));
-    localStorage.setItem("token", token);
-    histoy.push("/");
-    event.preventDefault();
+      .then((res) => setResponse(res.data))
+      .catch((err) => {
+        setLoading(false);
+        alert(err.request.response.message);
+      });
+    setLoading(true);
   }
+
   return (
     <LoginWrapper>
       <Banner>
@@ -36,7 +50,7 @@ export default function Signup() {
         </div>
       </Banner>
       <LoginStyle>
-        <Form onSubmit={submitSignup}>
+        <Form onSubmit={(e) => submitSignup(e)}>
           <input
             value={email}
             type="email"
@@ -60,7 +74,9 @@ export default function Signup() {
             placeholder="picture url"
             onChange={(e) => setPicture(e.target.value)}
           ></input>
-          <Button type="submit">Sign Up</Button>
+          <Button type="submit" disabled={isLoading}>
+            Sign Up
+          </Button>
         </Form>
         <SigninOrSignup>
           <Link to="/">Switch back to log in</Link>

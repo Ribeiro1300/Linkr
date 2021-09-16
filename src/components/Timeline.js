@@ -1,25 +1,32 @@
 import { Container, PageTitle, Content, NewPost } from "../styles/PagesStyles";
 import Posts from "./Posts";
+import Trending from "./Trending";
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import Loader from "react-loader-spinner";
 import { getPosts } from "./Api";
 
 export default function Timeline() {
   const [isLoading, setIsLoading] = useState(true);
-  let allPosts;
+  const [allPosts, setAllPosts] = useState([]);
+  const history = useHistory();
+
   useEffect(() => {
+    if (!localStorage.getItem("auth")) {
+      alert("Faça login antes!");
+      history.push("/");
+      return;
+    }
+
     getPosts()
-      .then((res) => {
-        allPosts = res.data.posts;
-        setIsLoading(false);
-      })
-      .catch(
+      .then((res) => setAllPosts(res.data.posts))
+      .catch((err) =>
         alert("Houve uma falha ao obter os posts, por favor atualize a página")
       );
   }, []);
 
   function CheckPosts() {
-    return allPosts.length == 0 ? (
+    return allPosts.length === 0 ? (
       <h2>Nenhum post encontrado</h2>
     ) : (
       <Posts postsList={allPosts} />
@@ -36,6 +43,7 @@ export default function Timeline() {
           CheckPosts()
         )}
       </Content>
+      <Trending />
     </Container>
   );
 }
