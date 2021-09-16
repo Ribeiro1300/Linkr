@@ -1,9 +1,20 @@
 import { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { Banner, Button, Form, LoginStyle, LoginWrapper, SigninOrSignup } from "../styles/LoginStyles";
+import {
+  Banner,
+  Button,
+  Form,
+  LoginStyle,
+  LoginWrapper,
+  SigninOrSignup,
+} from "../styles/LoginStyles";
 import { LoginReq } from "./Api";
 
 export default function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [config, setConfig] = useState(localStorage.getItem("config") || "");
+  const histoy = useHistory();
 
   const [email,setEmail] = useState('');
   const [password,setPassword] = useState('');
@@ -52,7 +63,7 @@ export default function Login() {
           <Button type='submit' disabled={isLoading}>Log In</Button>
         </Form>
         <SigninOrSignup>
-          <Link to='/signUp'>First time? Create an account!</Link>
+          <Link to="/signUp">First time? Create an account!</Link>
         </SigninOrSignup>
       </LoginStyle>
     </LoginWrapper>
