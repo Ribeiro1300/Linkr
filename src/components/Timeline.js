@@ -8,7 +8,7 @@ export default function Timeline() {
   return (
     <Container>
       <Content>
-        <PageTitle>Timeline</PageTitle>
+        <PageTitle>timeline</PageTitle>
         <NewPost></NewPost>
         <Posts postsList={allPosts} />
       </Content>

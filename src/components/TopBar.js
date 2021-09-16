@@ -8,7 +8,7 @@ const Top = styled.div`
   position: fixed;
   top: 0px;
   width: 100%;
-  height: 70px;
+  height: 72px;
   background-color: #151515;
   display: flex;
   justify-content: space-between;

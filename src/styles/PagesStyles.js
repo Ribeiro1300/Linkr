@@ -6,21 +6,23 @@ import styled from "styled-components";
 
 const Container = styled.div`
   width: 100%;
-  background-color: #696969;
-  margin-top: 70px;
+  background-color: #333333;
+  margin-top: 72px;
   display: flex;
   justify-content: center;
 `;
 
 const PageTitle = styled.h2`
-  font-size: 32px;
+  font-size: 43px;
+  font-weight: bold;
   font-family: "Oswald", sans-serif;
   color: white;
   margin-bottom: 50px;
 `;
 const Content = styled.div`
-  width: 620px;
-  margin-top: 60px;
+  width: 935px;
+  margin-top: 53px;
+  padding-right: 325px;
 `;
 const NewPost = styled.div`
   width: 100%;

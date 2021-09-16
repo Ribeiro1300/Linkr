@@ -6,12 +6,12 @@ export default function Trending() {
 
 const TrendingBox = styled.div`
   position: fixed;
-  width: 200px;
+  width: 300px;
   height: 400px;
   background-color: #171717;
   border-radius: 10px;
-  top: 200px;
-  left: 1000px;
+  top: 218px;
+  left: 1125px;
 
   @media (max-width: 375) {
     display: none;
