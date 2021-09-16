@@ -16,7 +16,9 @@ export default function Posts({ postsList }) {
           </ProfileAndLikes>
           <PostData>
             <h3>{info.user.username}</h3>
-            {/*info.user.id === usuariologado?<div>editar e excluir</div>:null*/}
+            {info.user.id === localStorage.getItem("userId") ? (
+              <div>editar e excluir</div>
+            ) : null}
             {/* <ReactHashtag
               onHashtagClick={(val) => history.push("/hashtag/" + val)}
             >

@@ -23,13 +23,14 @@ export default function Login() {
     }
     const promise = LoginReq({ email, password });
     promise
-      .then((res) =>
+      .then((res) => {
         setConfig({
           headers: {
             Authorization: `Bearer ${res.data.token}`,
           },
-        })
-      )
+        });
+        localStorage.setItem("userId", res.data.user.id);
+      })
       .catch((err) => alert(err.request));
     if (config === "") return;
     localStorage.setItem("config", config);

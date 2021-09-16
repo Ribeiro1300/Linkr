@@ -9,11 +9,13 @@ export default function Timeline() {
   let allPosts;
   useEffect(() => {
     getPosts()
-      .then((res) => (res.data.posts = allPosts))
-      .catch((err) =>
+      .then((res) => {
+        allPosts = res.data.posts;
+        setIsLoading(false);
+      })
+      .catch(
         alert("Houve uma falha ao obter os posts, por favor atualize a página")
       );
-    setIsLoading(false);
   }, []);
 
   function CheckPosts() {
