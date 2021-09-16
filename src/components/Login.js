@@ -11,10 +11,6 @@ import {
 import { LoginReq } from "./Api";
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [config, setConfig] = useState(localStorage.getItem("config") || "");
-  const histoy = useHistory();
 
   const [email,setEmail] = useState('');
   const [password,setPassword] = useState('');

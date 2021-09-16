@@ -16,11 +16,11 @@ export default function Posts({ postsList }) {
           </ProfileAndLikes>
           <PostData>
             <h3>{info.user.username}</h3>
-            { <ReactHashtag
+            {/* <ReactHashtag
               onHashtagClick={(val) => history.push("/hashtag/" + val)}
             >
               {info.text}
-            </ReactHashtag> }
+            </ReactHashtag> */}
             <LinkInfo>
               <a href={info.link} target="_blank">
                 <LinkTexts>

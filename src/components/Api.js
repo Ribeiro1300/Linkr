@@ -16,13 +16,13 @@ function SignupReq(body) {
 function HashtagReq(hashtag) {
   return axios.get(
     `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/hashtags/${hashtag}/posts`,
-    localStorage.getItem("config")
+    localStorage.getItem("token")
   );
 }
 function getPosts() {
   return axios.get(
     `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/posts`,
-    localStorage.getItem("config")
+    localStorage.getItem("token")
   );
 }
 

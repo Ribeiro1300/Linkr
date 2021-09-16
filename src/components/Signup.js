@@ -4,12 +4,6 @@ import { Banner, Form, LoginStyle, LoginWrapper, SigninOrSignup,Button} from "..
 import { SignupReq } from "./Api";
 
 export default function Signup() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
-  const [pictureUrl, setPicture] = useState("");
-  const [token, setToken] = useState(localStorage.getItem("token") || "");
-  const histoy = useHistory();
 
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
