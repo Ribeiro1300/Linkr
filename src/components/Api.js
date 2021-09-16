@@ -9,7 +9,7 @@ function LoginReq(body) {
 
 function SignupReq(body) {
   return axios.post(
-    "https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/sign-up",
+    "https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/sign-up",
     body
   );
 }
