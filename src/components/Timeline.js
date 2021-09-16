@@ -2,19 +2,19 @@ import { Container, PageTitle, Content, NewPost } from "../styles/PagesStyles";
 import Posts from "./Posts";
 import React, { useState, useEffect } from "react";
 import Loader from "react-loader-spinner";
-import { getPosts } from "./TestData";
+import { getPosts } from "./Api";
 
 export default function Timeline() {
-  const [isLoading, setIsLoading] = useState(false);
-  let allPosts = getPosts;
-  // useEffect(() => {
-  //   getPosts(config)
-  //     .then((res) => (res.data.posts = allPosts))
-  //     .catch((err) =>
-  //       alert("Houve uma falha ao obter os posts, por favor atualize a página")
-  //     );
-  //   setIsLoading(false);
-  // }, []);
+  const [isLoading, setIsLoading] = useState(true);
+  let allPosts;
+  useEffect(() => {
+    getPosts()
+      .then((res) => (res.data.posts = allPosts))
+      .catch((err) =>
+        alert("Houve uma falha ao obter os posts, por favor atualize a página")
+      );
+    setIsLoading(false);
+  }, []);
 
   function CheckPosts() {
     return allPosts.length == 0 ? (
