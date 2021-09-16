@@ -23,15 +23,13 @@ export default function Posts({ postsList }) {
                 {info.text}
               </ReactHashtag>
             }
-            <LinkInfo>
-              <a href={info.link} target="_blank">
-                <LinkTexts>
-                  <h4>{info.linkTitle}</h4>
-                  <p>{info.linkDescription}</p>
-                  <p>{info.link}</p>
-                </LinkTexts>
-                <img src={info.linkImage}></img>
-              </a>
+            <LinkInfo href={info.link} target="_blank">
+              <LinkTexts>
+                <h4>{info.linkTitle}</h4>
+                <p>{info.linkDescription}</p>
+                <p>{info.link}</p>
+              </LinkTexts>
+              <img src={info.linkImage}></img>
             </LinkInfo>
           </PostData>
         </Post>
@@ -55,31 +53,36 @@ const ProfileAndLikes = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  width: 100px;
+  width: 15%;
   img {
     width: 70px;
-    height: 70px;
     border-radius: 100px;
     margin-top: 10px;
   }
 `;
 const PostData = styled.div`
   display: flex;
+  flex-wrap: wrap;
+  width: 85%;
   flex-direction: column;
   justify-content: center;
 `;
 
-const LinkInfo = styled.div`
+const LinkInfo = styled.a`
+  display: flex;
+  width: 100%;
+  text-decoration: none;
+  color: currentColor;
+  border: 1px solid #4d4d4d;
+  border-radius: 10px;
   img {
     width: 100px;
     border-radius: 10px;
   }
-  a {
-    text-decoration: none;
-    color: currentColor;
-    border: 1px solid #4d4d4d;
-    border-radius: 10px;
-    display: flex;
-  }
 `;
-const LinkTexts = styled.div``;
+const LinkTexts = styled.div`
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+`;

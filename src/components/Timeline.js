@@ -1,5 +1,6 @@
 import { Container, PageTitle, Content, NewPost } from "../styles/PagesStyles";
 import Posts from "./Posts";
+import Trending from "./Trending";
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import Loader from "react-loader-spinner";
@@ -12,7 +13,7 @@ export default function Timeline() {
 
   useEffect(() => {
     if (!localStorage.getItem("auth")) {
-      alert("Faça login antes!")
+      alert("Faça login antes!");
       history.push("/");
       return;
     }
@@ -43,6 +44,7 @@ export default function Timeline() {
           CheckPosts()
         )}
       </Content>
+      <Trending />
     </Container>
   );
 }
