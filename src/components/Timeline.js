@@ -1,13 +1,22 @@
 import { Container, PageTitle, Content, NewPost } from "../styles/PagesStyles";
 import Posts from "./Posts";
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import Loader from "react-loader-spinner";
 import { getPosts } from "./Api";
 
 export default function Timeline() {
   const [isLoading, setIsLoading] = useState(true);
-  const [allPosts, setAllPosts] = useState([])
+  const [allPosts, setAllPosts] = useState([]);
+  const history = useHistory();
+
   useEffect(() => {
+    if (!localStorage.getItem("auth")) {
+      alert("Faça login antes!")
+      history.push("/");
+      return;
+    }
+
     getPosts()
       .then((res) => setAllPosts(res.data.posts))
       .catch((err) =>

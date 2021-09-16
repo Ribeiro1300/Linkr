@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Link, useHistory } from "react-router-dom";
-// import ReactHashtag from "react-hashtag";
-import React from "react";
+import ReactHashtag from "react-hashtag";
+
 export default function Posts({ postsList }) {
   const history = useHistory();
   return (
@@ -16,11 +16,13 @@ export default function Posts({ postsList }) {
           </ProfileAndLikes>
           <PostData>
             <h3>{info.user.username}</h3>
-            {/* <ReactHashtag
-              onHashtagClick={(val) => history.push("/hashtag/" + val)}
-            >
-              {info.text}
-            </ReactHashtag> */}
+            {
+              <ReactHashtag
+                onHashtagClick={(val) => history.push("/hashtag/" + val)}
+              >
+                {info.text}
+              </ReactHashtag>
+            }
             <LinkInfo>
               <a href={info.link} target="_blank">
                 <LinkTexts>
