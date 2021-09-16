@@ -75,6 +75,10 @@ const Button = styled.button`
     color: white;
     font-size: 26px;
     font-weight: bold;
+
+    :disabled {
+        background-color: grey;
+    }
 `
 
 const SigninOrSignup = styled.button`

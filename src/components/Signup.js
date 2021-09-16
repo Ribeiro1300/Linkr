@@ -10,26 +10,33 @@ export default function Signup () {
     const [username,setUsername] = useState('')
     const [pictureUrl, setPicture] = useState('')
     const [response,setResponse] = useState();
-    
+    const [isLoading, setLoading] = useState(false)
+
     const history = useHistory()
     
     useEffect(() => {
-        if (localStorage.getItem('token') !== null) {
-          history.push("/timeline",response)
-          return
+        if (localStorage.getItem('token') !== '' && localStorage.getItem('token') !== null ) {
+            history.push("/timeline",response)
+            return
         }
         if (response !== undefined) {
           localStorage.setItem('token', response.token)
           history.push("/timeline",response)
         }
-      },[response])
+        setLoading(false)
+      },[response,isLoading])
 
     function submitSignup(e) {
         e.preventDefault();
+        if (email === '' || password === '' || username === '' || pictureUrl === '') {
+            alert('Preencha todos os campos')
+            return
+        } 
         const promise = SignupReq({email,password,username,pictureUrl});
         promise
-        .then(res => setResponse(res.data))
-        .catch(err => alert(err.request));
+            .then(res => setResponse(res.data))
+            .catch(err => alert(JSON.parse(err.request.response).message));
+        setLoading(true)
     }
 
     return (
@@ -46,7 +53,7 @@ export default function Signup () {
                     <input value={password} type='password' placeholder='password' onChange={(e) => setPassword(e.target.value)}></input>
                     <input value={username} placeholder='username' onChange={(e) => setUsername(e.target.value)}></input>
                     <input value={pictureUrl} type='url' placeholder='picture url' onChange={(e) => setPicture(e.target.value)}></input>
-                    <Button type='submit'>Sign Up</Button>
+                    <Button type='submit' disabled={isLoading}>Sign Up</Button>
                 </Form>
                 <SigninOrSignup>
                     <Link to='/'>Switch back to log in</Link>
