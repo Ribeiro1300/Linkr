@@ -11,9 +11,9 @@ const TrendingBox = styled.div`
   background-color: #171717;
   border-radius: 10px;
   top: 200px;
-  left: 1000px;
+  left: 80%;
 
-  @media (max-width: 375) {
+  @media (max-width: 1040px) {
     display: none;
   }
 `;
