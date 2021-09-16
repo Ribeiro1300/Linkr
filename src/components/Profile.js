@@ -2,6 +2,7 @@ import { Container, PageTitle, Content, NewPost } from "../styles/PagesStyles";
 import { useParams } from "react-router-dom";
 import { getUserPosts } from "./TestData";
 import Posts from "./Posts";
+import React from "react";
 
 export default function Profile() {
   const { id } = useParams();

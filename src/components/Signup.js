@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useHistory,Link } from "react-router-dom";
 import { Banner, Form, LoginStyle, LoginWrapper, SigninOrSignup,Button} from "../styles/LoginStyles";
 import { SignupReq } from "./Api";
-
+import React from "react";
 export default function Signup() {
 
     const [email,setEmail] = useState('');
@@ -15,12 +15,12 @@ export default function Signup() {
     const history = useHistory()
     
     useEffect(() => {
-        if (localStorage.getItem('token') !== '' && localStorage.getItem('token') !== null ) {
+        if (localStorage.getItem('auth') !== '' && localStorage.getItem('auth') !== null ) {
             history.push("/timeline",response)
             return
         }
         if (response !== undefined) {
-          localStorage.setItem('token', response.token)
+          localStorage.setItem('auth', response.token)
           history.push("/timeline",response)
         }
         setLoading(false)
@@ -35,7 +35,10 @@ export default function Signup() {
         const promise = SignupReq({email,password,username,pictureUrl});
         promise
             .then(res => setResponse(res.data))
-            .catch(err => alert(JSON.parse(err.request.response).message));
+            .catch(err => {
+                setLoading(false)
+                alert(JSON.parse(err.request.response).message)
+            });
         setLoading(true)
     }
 

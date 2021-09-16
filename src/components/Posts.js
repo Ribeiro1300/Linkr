@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Link, useHistory } from "react-router-dom";
 // import ReactHashtag from "react-hashtag";
-
+import React from "react";
 export default function Posts({ postsList }) {
   const history = useHistory();
   return (

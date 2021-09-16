@@ -14,15 +14,21 @@ function SignupReq(body) {
   );
 }
 function HashtagReq(hashtag) {
+  const config = {headers: {
+    "Authorization" : `Bearer ${localStorage.getItem("auth")}`
+    }
+  }
   return axios.get(
-    `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/hashtags/${hashtag}/posts`,
-    localStorage.getItem("token")
+    `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/hashtags/${hashtag}/posts`, config
   );
 }
 function getPosts() {
+  const config = {headers: {
+    "Authorization" : `Bearer ${localStorage.getItem("auth")}`
+    }
+  }
   return axios.get(
-    `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/posts`,
-    localStorage.getItem("token")
+    `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/posts`, config
   );
 }
 

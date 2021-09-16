@@ -6,10 +6,10 @@ import { getPosts } from "./Api";
 
 export default function Timeline() {
   const [isLoading, setIsLoading] = useState(true);
-  let allPosts;
+  const [allPosts, setAllPosts] = useState([])
   useEffect(() => {
     getPosts()
-      .then((res) => (res.data.posts = allPosts))
+      .then((res) => setAllPosts(res.data.posts))
       .catch((err) =>
         alert("Houve uma falha ao obter os posts, por favor atualize a página")
       );
@@ -17,7 +17,7 @@ export default function Timeline() {
   }, []);
 
   function CheckPosts() {
-    return allPosts.length == 0 ? (
+    return allPosts.length === 0 ? (
       <h2>Nenhum post encontrado</h2>
     ) : (
       <Posts postsList={allPosts} />
