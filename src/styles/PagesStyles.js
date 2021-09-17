@@ -1,7 +1,3 @@
-// font-family: 'Lato', sans-serif;
-// font-family: 'Oswald', sans-serif;
-// font-family: 'Passion One', cursive;
-
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -9,7 +5,7 @@ const Container = styled.div`
   background-color: #696969;
   margin-top: 70px;
   display: flex;
-  flex-flow: row;
+  min-height: 100vh;
   justify-content: center;
 `;
 

@@ -24,7 +24,7 @@ export default function App() {
           <TopBar />
           <Profile />
         </Route>
-        <Route path="/hashtag/:hashtag" exact>
+        <Route path="/hashtag/:hashtagName" exact>
           <TopBar />
           <Hashtag />
         </Route>

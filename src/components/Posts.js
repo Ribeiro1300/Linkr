@@ -18,7 +18,9 @@ export default function Posts({ postsList }) {
             <h3>{info.user.username}</h3>
             {
               <ReactHashtag
-                onHashtagClick={(val) => history.push("/hashtag/" + val)}
+                onHashtagClick={(val) =>
+                  history.push("/hashtag/" + val.slice(1))
+                }
               >
                 {info.text}
               </ReactHashtag>
