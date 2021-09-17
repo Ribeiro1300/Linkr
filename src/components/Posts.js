@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { Link, useHistory } from "react-router-dom";
 import ReactHashtag from "react-hashtag";
+import { FaTrash } from "react-icons/fa";
 
 export default function Posts({ postsList }) {
   const history = useHistory();
@@ -17,7 +18,10 @@ export default function Posts({ postsList }) {
           <PostData>
             <h3>{info.user.username}</h3>
             {info.user.id === localStorage.getItem("userId") ? (
-              <div>editar e excluir</div>
+              <div>
+                <FaTrash />
+                editar e excluir
+              </div>
             ) : null}
             {
               <ReactHashtag
