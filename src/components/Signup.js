@@ -20,6 +20,15 @@ export default function Signup() {
 
   const history = useHistory();
 
+  useEffect(() => {
+    if (response !== undefined) {
+      localStorage.setItem('user', response.user)
+      localStorage.setItem('auth', response.token)
+      history.push("/timeline",response)
+    }
+    setLoading(false)
+  },[response])
+
   function submitSignup(e) {
     e.preventDefault();
     if (
@@ -36,7 +45,7 @@ export default function Signup() {
       .then((res) => setResponse(res.data))
       .catch((err) => {
         setLoading(false);
-        alert(err.request.response.message);
+        alert(JSON.parse(err.request.response).message);
       });
     setLoading(true);
   }
