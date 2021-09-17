@@ -23,6 +23,7 @@ export default function Timeline() {
       .catch((err) =>
         alert("Houve uma falha ao obter os posts, por favor atualize a página")
       );
+    setIsLoading(false);
   }, []);
 
   function CheckPosts() {
