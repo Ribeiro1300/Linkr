@@ -73,7 +73,18 @@ function getLikedPosts() {
     config
   );
 }
-
+function getUserPosts() {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("auth")}`,
+    },
+  };
+  const user = localStorage.getItem("user");
+  return axios.get(
+    `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/users/${user.id}/posts`,
+    config
+  );
+}
 export {
   LoginReq,
   SignupReq,
@@ -82,4 +93,5 @@ export {
   LikePost,
   DislikePost,
   getLikedPosts,
+  getUserPosts,
 };

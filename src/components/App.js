@@ -7,6 +7,7 @@ import Profile from "./Profile";
 import Signup from "./Signup";
 import Hashtag from "./Hashtag";
 import MyLikes from "./MyLikes";
+import MyPosts from "./MyPosts";
 export default function App() {
   return (
     <BrowserRouter>
@@ -32,6 +33,10 @@ export default function App() {
         <Route path="/my-likes">
           <TopBar />
           <MyLikes />
+        </Route>
+        <Route path="/my-posts">
+          <TopBar />
+          <MyPosts />
         </Route>
       </Switch>
     </BrowserRouter>

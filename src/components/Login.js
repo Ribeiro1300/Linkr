@@ -28,7 +28,7 @@ export default function Login() {
       return;
     }
     if (response !== undefined) {
-      localStorage.setItem("user", JSON.stringify(response.user));
+      localStorage.setItem("user", response.user);
       localStorage.setItem("auth", response.token);
       history.push("/timeline", response);
     }

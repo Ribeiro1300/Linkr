@@ -4,22 +4,21 @@ import Posts from "./Posts";
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import axios from "axios";
-import { getLikedPosts } from "./Api";
+import { getUserPosts } from "./Api";
 
-export default function MyLikes() {
+export default function MyPosts() {
   const history = useHistory();
   const [isLoading, setIsLoading] = useState(true);
-  const [likedPosts, setLikedPosts] = useState([]);
+  const [usersPosts, setUsersPosts] = useState([]);
   useEffect(() => {
     if (!localStorage.getItem("auth")) {
       alert("Faça login antes!");
       history.push("/");
       return;
     }
-    getLikedPosts()
+    getUserPosts()
       .then((res) => {
-        console.log(res.data.posts);
-        setLikedPosts(res.data.posts);
+        setUsersPosts(res.data.posts);
       })
       .catch();
     setIsLoading(false);
@@ -27,8 +26,8 @@ export default function MyLikes() {
   return (
     <Container>
       <Content>
-        <PageTitle>My likes</PageTitle>
-        <Posts postsList={likedPosts} />
+        <PageTitle>My posts</PageTitle>
+        <Posts postsList={usersPosts} />
       </Content>
       <Trending />
     </Container>
