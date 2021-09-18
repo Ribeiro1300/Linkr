@@ -4,21 +4,21 @@ import Posts from "./Posts";
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import axios from "axios";
-import { getUserPosts } from "./Api";
+import { getMyPosts } from "./Api";
 
 export default function MyPosts() {
   const history = useHistory();
   const [isLoading, setIsLoading] = useState(true);
-  const [usersPosts, setUsersPosts] = useState([]);
+  const [myPosts, setMyPosts] = useState([]);
   useEffect(() => {
     if (!localStorage.getItem("auth")) {
       alert("Faça login antes!");
       history.push("/");
       return;
     }
-    getUserPosts()
+    getMyPosts()
       .then((res) => {
-        setUsersPosts(res.data.posts);
+        setMyPosts(res.data.posts);
       })
       .catch();
     setIsLoading(false);
@@ -27,7 +27,7 @@ export default function MyPosts() {
     <Container>
       <Content>
         <PageTitle>My posts</PageTitle>
-        <Posts postsList={usersPosts} />
+        <Posts postsList={myPosts} />
       </Content>
       <Trending />
     </Container>
