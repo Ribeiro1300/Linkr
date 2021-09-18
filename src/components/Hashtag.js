@@ -1,7 +1,7 @@
-import { Container, Content } from "../styles/PagesStyles";
+import { Container, Content, PageTitle } from "../styles/PagesStyles";
 import Trending from "./Trending";
 import React from "react";
-import { useHistory, useParams } from "react-router";
+import { useHistory, useParams } from "react-router-dom";
 
 export default function Hashtag() {
   const history = useHistory();
@@ -9,7 +9,7 @@ export default function Hashtag() {
   return (
     <Container>
       <Content>
-        <h1>{hashtagName}</h1>
+        <PageTitle>{hashtagName}</PageTitle>
       </Content>
       <Trending />
     </Container>

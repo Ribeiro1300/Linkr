@@ -6,6 +6,7 @@ import Timeline from "./Timeline";
 import Profile from "./Profile";
 import Signup from "./Signup";
 import Hashtag from "./Hashtag";
+import MyLikes from "./MyLikes";
 export default function App() {
   return (
     <BrowserRouter>
@@ -27,6 +28,10 @@ export default function App() {
         <Route path="/hashtag/:hashtagName" exact>
           <TopBar />
           <Hashtag />
+        </Route>
+        <Route path="/my-likes">
+          <TopBar />
+          <MyLikes />
         </Route>
       </Switch>
     </BrowserRouter>

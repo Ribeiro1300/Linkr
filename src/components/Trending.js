@@ -13,6 +13,9 @@ const TrendingContainer = styled.div`
   flex-flow: row;
   width: 300px;
   position: relative;
+  @media (max-width: 1040px) {
+    display: none;
+  }
 `;
 const TrendingBox = styled.div`
   position: fixed;
