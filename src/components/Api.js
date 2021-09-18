@@ -32,4 +32,25 @@ function getPosts() {
   );
 }
 
-export { LoginReq, SignupReq, HashtagReq, getPosts };
+function LikePost(body) {
+  const config = {headers: {
+    "Authorization" : `Bearer ${localStorage.getItem("auth")}`
+    }
+  }
+
+  return axios.post(
+    `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/posts/${body}/like`, [], config
+  );
+}
+
+function DislikePost(body) {
+  const config = {headers: {
+    "Authorization" : `Bearer ${localStorage.getItem("auth")}`
+    }
+  }
+  return axios.post(
+    `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/posts/${body}/dislike`,[], config
+  );
+}
+
+export { LoginReq, SignupReq, HashtagReq, getPosts, LikePost, DislikePost };

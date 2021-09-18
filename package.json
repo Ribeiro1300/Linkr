@@ -9,13 +9,11 @@
     "react-hashtag": "^2.1.2",
     "react-icons": "^4.2.0",
     "react-loader-spinner": "^4.0.0",
-<<<<<<< Updated upstream
     "react-router": "^5.2.1",
-=======
     "react-modal": "^3.14.3",
->>>>>>> Stashed changes
     "react-router-dom": "^5.3.0",
     "react-scripts": "4.0.3",
+    "react-tooltip": "^4.2.21",
     "styled-components": "^5.3.1"
   },
   "scripts": {

@@ -2,18 +2,19 @@ import styled from "styled-components";
 import { Link, useHistory } from "react-router-dom";
 import ReactHashtag from "react-hashtag";
 import { FaTrash } from "react-icons/fa";
+import LikeButton from "./LikeButton";
 
 export default function Posts({ postsList }) {
   const history = useHistory();
   return (
     <>
-      {postsList.map((info) => (
+      {postsList.map((info,index) => (
         <Post key={info.id}>
           <ProfileAndLikes>
             <Link to={"/user/" + info.user.id}>
               <img src={info.user.avatar}></img>
             </Link>
-            {info.likes.length}
+            <LikeButton info={info} id={'likeContainer-'+index} index={index}/>
           </ProfileAndLikes>
           <PostData>
             <h3>{info.user.username}</h3>
