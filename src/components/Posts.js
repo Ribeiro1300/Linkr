@@ -1,22 +1,52 @@
 import styled from "styled-components";
 import { Link, useHistory } from "react-router-dom";
 import ReactHashtag from "react-hashtag";
+import { FaTrash } from "react-icons/fa";
 import LikeButton from "./LikeButton";
+import React from "react";
+import axios from "axios";
 
 export default function Posts({ postsList }) {
   const history = useHistory();
+  const [modalIsOpen, setIsOpen] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
+
+  function deletePost(props) {
+    setIsLoading(true);
+    axios
+      .delete(
+        `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/posts/${props}`,
+        localStorage.getItem("auth")
+      )
+      .then(() => {
+        setIsOpen(false);
+        history.push("/timeline");
+      })
+      .catch(() => alert("Não foi possível excluir o post, tente novamente!"));
+  }
+
   return (
     <>
-      {postsList.map((info,index) => (
+      {postsList.map((info, index) => (
         <Post key={info.id}>
           <ProfileAndLikes>
             <Link to={"/user/" + info.user.id}>
               <img src={info.user.avatar}></img>
             </Link>
-            <LikeButton info={info} id={'likeContainer-'+index} index={index}/>
+            <LikeButton
+              info={info}
+              id={"likeContainer-" + index}
+              index={index}
+            />
           </ProfileAndLikes>
           <PostData>
             <h3>{info.user.username}</h3>
+            {info.user.id === localStorage.getItem("userId") ? (
+              <div>
+                <FaTrash />
+                editar e excluir
+              </div>
+            ) : null}
             {
               <ReactHashtag
                 onHashtagClick={(val) =>
@@ -59,6 +89,8 @@ const ProfileAndLikes = styled.div`
   width: 15%;
   img {
     width: 70px;
+    height: 70px;
+    object-fit: fill;
     border-radius: 100px;
     margin-top: 10px;
   }
