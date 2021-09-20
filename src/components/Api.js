@@ -76,8 +76,4 @@ return axios.post(
 );
 }
 
-<<<<<<< HEAD
-export { LoginReq, SignupReq, getTrendingHashtags, getHashtagPosts, getPosts, LikePost, DislikePost };
-=======
 export { LoginReq, SignupReq, getTrendingHashtags, getHashtagPosts, getPosts, LikePost, DislikePost, sendCreatePost };
->>>>>>> master
