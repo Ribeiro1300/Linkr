@@ -53,4 +53,24 @@ function DislikePost(body) {
   );
 }
 
-export { LoginReq, SignupReq, HashtagReq, getPosts, LikePost, DislikePost };
+function getMyPosts() {
+  const config = {headers: {
+    "Authorization" : `Bearer ${localStorage.getItem("auth")}`
+    }
+  }
+  return axios.get(
+    `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/users/${JSON.parse(localStorage.getItem('user')).id}/posts`, config
+  );
+}
+
+function getLikedPosts() {
+  const config = {headers: {
+    "Authorization" : `Bearer ${localStorage.getItem("auth")}`
+    }
+  }
+  return axios.get(
+    `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/posts/liked`, config
+  );
+}
+
+export { LoginReq, SignupReq, HashtagReq, getPosts, LikePost, DislikePost, getMyPosts, getLikedPosts };
