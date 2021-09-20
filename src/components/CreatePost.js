@@ -1,18 +1,14 @@
-import { Container, PageTitle, Content, NewPost } from "../styles/PagesStyles";
-import Posts from "./Posts";
-import Loader from "react-loader-spinner";
-import Trending from "./Trending";
 import React, { useState, useEffect } from "react";
-import { useHistory, useParams } from "react-router";
-import { getHashtagPosts, sendCreatePost } from "./Api";
+import { useHistory } from "react-router";
+import { sendCreatePost } from "./Api";
 import styled from "styled-components";
 
 export default function CreatePost() {
 
     const [avatar,setAvatar] = useState('');
-
     const [postURL,setPostURL] = useState('');
     const [postDescription,setPostDescription] = useState('');
+    const [isPublishing, setIsPublishing] = useState(false)
 
     const history = useHistory();
 
@@ -24,17 +20,20 @@ export default function CreatePost() {
 
         event.preventDefault();
 
-        const body = {
-            text: postDescription,
-            link: postURL
+        if ( postURL === '' || postURL === null ) {
+            alert("Por favor preencha o link que queira compartilhar")
+            return
         }
 
-        const promise = sendCreatePost(body)
-            promise
-                .then(res => history.push("/timeline"))
-                .catch(err => alert(JSON.parse(err.request.response).message))
-            return
-
+        const promise = sendCreatePost({"text":postDescription, "link":postURL})
+        promise
+            .then(res => history.push("/"))
+            .catch(err => {
+                setIsPublishing(false)
+                alert("Houve um erro ao publicar seu link")
+                alert(JSON.parse(err.request.response).message)
+            });
+        setIsPublishing(true);
     }
 
   return (
@@ -43,9 +42,11 @@ export default function CreatePost() {
         <InfoBox>
             <p>O que você tem pra favoritar hoje?</p>
             <form onSubmit={publishPost}>
-                <LinkInput type="url" name="postURL" placeholder="http://..." onChange={(e) => setPostURL(e.target.value)} value={postURL} required />
-                <DescriptionInput type="text" name="postDescription" onChange={(e) => setPostDescription(e.target.value)} value={postDescription} placeholder="Descrição" wrap="soft"/>
-                <PublishButton type="submit" >Publicar</PublishButton>
+                <LinkInput type="url" name="postURL" placeholder="http://..." onChange={(e) => setPostURL(e.target.value)} value={postURL} required disabled={isPublishing}/>
+                <DescriptionInput type="text" name="postDescription" onChange={(e) => setPostDescription(e.target.value)} value={postDescription} placeholder="Descrição" wrap="soft"disabled={isPublishing}/>
+                <PublishButton type="submit" disabled={isPublishing}>
+                    {isPublishing ? "Publicando" : "Publicar" }
+                </PublishButton>
             </form>
         </InfoBox>
     </CreatePostBox>
@@ -92,6 +93,7 @@ const InfoBox = styled.div`
             line-height: 28px;
             width: 100%;
             background: #EFEFEF;
+            resize: none;
             border-radius: 5px;
             border: none;
             padding-left: 10px;
