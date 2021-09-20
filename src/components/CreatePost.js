@@ -100,6 +100,9 @@ const InfoBox = styled.div`
             font-size: 15px;
             line-height: 18px;
             word-break: break-all;
+            :disabled {
+                background-color: grey;
+            }
             ::placeholder {
                 color: #949494;
                 }
@@ -130,4 +133,7 @@ const PublishButton = styled.button`
     font-size: 14px;
     line-height: 17px;
     color: #FFFFFF;
+    :disabled {
+        background-color: grey;
+    }
 `;
