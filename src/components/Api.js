@@ -24,15 +24,16 @@ function getTrendingHashtags() {
   );
 }
 
-function HashtagReq(hashtag) {
+function getHashtagPosts(hashtagName) {
   const config = {headers: {
     "Authorization" : `Bearer ${localStorage.getItem("auth")}`
     }
   }
   return axios.get(
-    `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/hashtags/${hashtag}/posts`, config
+    `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/hashtags/${hashtagName}/posts`, config
   );
 }
+
 function getPosts() {
   const config = {headers: {
     "Authorization" : `Bearer ${localStorage.getItem("auth")}`
@@ -64,4 +65,4 @@ function DislikePost(body) {
   );
 }
 
-export { LoginReq, SignupReq, getTrendingHashtags, HashtagReq, getPosts, LikePost, DislikePost };
+export { LoginReq, SignupReq, getTrendingHashtags, getHashtagPosts, getPosts, LikePost, DislikePost };
