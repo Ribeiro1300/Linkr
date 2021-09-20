@@ -5,6 +5,7 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import Loader from "react-loader-spinner";
 import { getPosts } from "./Api";
+import CreatePost from "./CreatePost";
 
 export default function Timeline() {
   const [isLoading, setIsLoading] = useState(true);
@@ -37,7 +38,9 @@ export default function Timeline() {
     <Container>
       <Content>
         <PageTitle>Timeline</PageTitle>
-        <NewPost></NewPost>
+        <NewPost>
+          <CreatePost />
+        </NewPost>
         {isLoading ? (
           <Loader type="Bars" color="#00BFFF" height={80} width={80} />
         ) : (
