@@ -1,6 +1,7 @@
 import { Container, Content, PageTitle } from "../styles/PagesStyles";
 import Trending from "./Trending";
 import Posts from "./Posts";
+import Loader from "react-loader-spinner";
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import axios from "axios";
@@ -24,11 +25,25 @@ export default function Profile() {
       .catch();
     setIsLoading(false);
   }, []);
+
+  function CheckPosts() {
+    return usersPosts.length === 0 ? (
+      <h2>Nenhum post encontrado</h2>
+    ) : (
+      <>
+        <PageTitle>{usersPosts[0].user.username + "'s posts"}</PageTitle>
+        <Posts postsList={usersPosts} />
+      </>
+    );
+  }
   return (
     <Container>
       <Content>
-        <PageTitle>{usersPosts[0].user.username + "'s posts"}</PageTitle>
-        <Posts postsList={usersPosts} />
+        {isLoading ? (
+          <Loader type="Bars" color="#00BFFF" height={80} width={80} />
+        ) : (
+          CheckPosts()
+        )}
       </Content>
       <Trending />
     </Container>

@@ -50,7 +50,7 @@ export default function Posts({ postsList }) {
             {
               <ReactHashtag
                 onHashtagClick={(val) =>
-                  history.push("/hashtag/" + val.slice(1))
+                  history.push("/hashtag/:" + val.slice(1))
                 }
               >
                 {info.text}
@@ -90,6 +90,7 @@ const ProfileAndLikes = styled.div`
   img {
     width: 70px;
     height: 70px;
+    object-fit: fill;
     border-radius: 100px;
     margin-top: 10px;
   }

@@ -13,17 +13,31 @@ function SignupReq(body) {
     body
   );
 }
-function HashtagReq(hashtag) {
+
+function getTrendingHashtags() {
   const config = {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("auth")}`,
     },
   };
   return axios.get(
-    `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/hashtags/${hashtag}/posts`,
+    `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/hashtags/trending`,
     config
   );
 }
+
+function getHashtagPosts(hashtagName) {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("auth")}`,
+    },
+  };
+  return axios.get(
+    `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/hashtags/${hashtagName}/posts`,
+    config
+  );
+}
+
 function getPosts() {
   const config = {
     headers: {
@@ -62,6 +76,35 @@ function DislikePost(body) {
     config
   );
 }
+
+function sendCreatePost(body) {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("auth")}`,
+    },
+  };
+
+  return axios.post(
+    `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/posts`,
+    body,
+    config
+  );
+}
+
+function getMyPosts() {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("auth")}`,
+    },
+  };
+  return axios.get(
+    `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/users/${
+      JSON.parse(localStorage.getItem("user")).id
+    }/posts`,
+    config
+  );
+}
+
 function getLikedPosts() {
   const config = {
     headers: {
@@ -73,18 +116,7 @@ function getLikedPosts() {
     config
   );
 }
-function getMyPosts() {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("auth")}`,
-    },
-  };
-  const user = localStorage.getItem("user");
-  return axios.get(
-    `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/users/${user.id}/posts`,
-    config
-  );
-}
+
 function getUserPosts(id) {
   const config = {
     headers: {
@@ -96,14 +128,17 @@ function getUserPosts(id) {
     config
   );
 }
+
 export {
   LoginReq,
   SignupReq,
-  HashtagReq,
+  getTrendingHashtags,
+  getHashtagPosts,
   getPosts,
   LikePost,
   DislikePost,
+  sendCreatePost,
+  getMyPosts,
   getLikedPosts,
   getUserPosts,
-  getMyPosts,
 };
