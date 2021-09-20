@@ -28,6 +28,14 @@ export default function App() {
           <TopBar />
           <Hashtag />
         </Route>
+        <Route path="/my-posts">
+          <TopBar />
+          <Timeline />
+        </Route>
+        <Route path="/my-likes">
+          <TopBar />
+          <Timeline />
+        </Route>
       </Switch>
     </BrowserRouter>
   );
