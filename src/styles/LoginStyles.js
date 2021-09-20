@@ -35,6 +35,10 @@ const Banner = styled.div`
         font-family: 'Oswald', sans-serif;
         font-size: 36px;
     }
+    div h2 {
+        font-family: 'Passion One', cursive;
+        font-size: 49px;
+    }
 `
 
 const LoginStyle = styled.div`

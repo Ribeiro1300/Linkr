@@ -76,4 +76,24 @@ return axios.post(
 );
 }
 
-export { LoginReq, SignupReq, getTrendingHashtags, getHashtagPosts, getPosts, LikePost, DislikePost, sendCreatePost };
+function getMyPosts() {
+  const config = {headers: {
+    "Authorization" : `Bearer ${localStorage.getItem("auth")}`
+    }
+  }
+  return axios.get(
+    `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/users/${JSON.parse(localStorage.getItem('user')).id}/posts`, config
+  );
+}
+
+function getLikedPosts() {
+  const config = {headers: {
+    "Authorization" : `Bearer ${localStorage.getItem("auth")}`
+    }
+  }
+  return axios.get(
+    `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/posts/liked`, config
+  );
+}
+
+export { LoginReq, SignupReq, getTrendingHashtags, getHashtagPosts, getPosts, LikePost, DislikePost, sendCreatePost, getMyPosts, getLikedPosts };
