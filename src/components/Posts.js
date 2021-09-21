@@ -2,14 +2,51 @@ import styled from "styled-components";
 import { Link, useHistory } from "react-router-dom";
 import ReactHashtag from "react-hashtag";
 import LikeButton from "./LikeButton";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { IoPencilSharp } from "react-icons/io5";
+import { sendPostEdit } from "./Api";
 
 export default function Posts({ postsList }) {
   const history = useHistory();
 
+  const inputRef = useRef(null);
+
   const [isEditing, setIsEditing] = useState(false);
   const [isSendingEdit, setIsSendingEdit] = useState(false);
+  const [postText, setPostText] = useState("");
+  const [postID, setPostID] = useState("");
+
+  useEffect(() => {
+    if (isEditing) {
+      inputRef.current.focus();
+      window.addEventListener('keydown', (event) => {
+        if (event.key === "Escape") {
+        setIsEditing(false);
+        return
+      } 
+    });
+    }
+  }, [isEditing]);  
+
+  function publishEditedPost () {
+
+    if ( postText === '' || postText === null ) {
+        alert("Por favor preencha o link que queira compartilhar")
+        return
+    }
+
+    const promise = sendPostEdit(postID, {"text":postText})
+    promise
+        .then(res => history.push("/timeline"))
+        .catch(err => {
+            setIsSendingEdit(false)
+            alert("Não foi possível salvar as alterações ")
+            alert(JSON.parse(err.request.response).message)
+        });
+    setIsSendingEdit(true);
+  }
+
+  
 
   return (
     <>
@@ -22,14 +59,16 @@ export default function Posts({ postsList }) {
             <LikeButton info={info} id={'likeContainer-'+index} index={index}/>
           </ProfileAndLikes>
           {info.user.id.toString() === localStorage.getItem("userID") ? (
-              <EditPost onClick={() => setIsEditing(!isEditing)}>
+              <EditPost onClick={ () => { setIsEditing(!isEditing); setPostID(info.id); setPostText(info.text);} }>
                 <IoPencilSharp size="1em"/>
               </EditPost>
           ) : null}
           <PostData>
             <h3>{info.user.username}</h3>
             {isEditing && info.user.id.toString() === localStorage.getItem("userID") ? 
-              (<DescriptionInput type="text" name="postDescription" value={info.text} wrap="soft" disabled={isSendingEdit}/>) : 
+              (<form onSubmit={publishEditedPost}>
+                <DescriptionInput type="text" ref={inputRef} name="postDescription" onChange={(e) => setPostText(e.target.value)} value={postText} wrap="soft" disabled={isSendingEdit}/>
+              </form>) : 
               (<ReactHashtag onHashtagClick={(val) => history.push("/hashtag/" + val.slice(1)) }>
                   {info.text}
                 </ReactHashtag>
