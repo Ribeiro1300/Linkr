@@ -8,6 +8,7 @@ export default function Trending() {
   const history = useHistory();
 
   const [trendingHashtags, setTrendingHashtags] = useState([]); 
+  const [searchHashtag, setSearchHashtag] = useState(); 
 
   useEffect(() => {
 
@@ -28,8 +29,12 @@ export default function Trending() {
             # {trendingHashtags.name}</HashtagText> )}
         <SearchHashtagBox>
           <HashtagIcon>#</HashtagIcon>
-          <form>
-            <HashtagInput placeholder="type a hashtag" type="text" />
+          <form onSubmit={() => history.push(`/hashtag/:${searchHashtag}`)} >
+            <HashtagInput 
+            placeholder="type a hashtag" 
+            type="text" 
+            value={searchHashtag}
+            onChange={(e) => setSearchHashtag(e.target.value)}/>
           </form>
         </SearchHashtagBox>
       </TrendingBox>
