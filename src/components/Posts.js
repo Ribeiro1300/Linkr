@@ -2,9 +2,13 @@ import styled from "styled-components";
 import { Link, useHistory } from "react-router-dom";
 import ReactHashtag from "react-hashtag";
 import LikeButton from "./LikeButton";
+import EditPost from "./EditPost";
 
 export default function Posts({ postsList }) {
   const history = useHistory();
+
+  const userID = localStorage.getItem("userID");
+
   return (
     <>
       {postsList.map((info,index) => (
@@ -17,14 +21,16 @@ export default function Posts({ postsList }) {
           </ProfileAndLikes>
           <PostData>
             <h3>{info.user.username}</h3>
-            {
+            {info.user.id === userID ? (
+              <EditPost info={info}/>
+              ) : (
               <ReactHashtag
                 onHashtagClick={(val) =>
                   history.push("/hashtag/:" + val.slice(1))
                 }
               >
                 {info.text}
-              </ReactHashtag>
+              </ReactHashtag> )
             }
             <LinkInfo href={info.link} target="_blank">
               <LinkTexts>

@@ -27,6 +27,7 @@ export default function Login() {
     }
     if (response !== undefined) {
       localStorage.setItem('user', JSON.stringify(response.user))
+      localStorage.setItem('userID', response.user.id)
       localStorage.setItem('auth', response.token)
       history.push("/timeline",response)
     }
