@@ -129,6 +129,42 @@ function getUserPosts(id) {
   );
 }
 
+function followUser(id) {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("auth")}`,
+    },
+  };
+  return axios.post(
+    `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/users/${id}/follow`, [],
+    config
+  );
+}
+
+function unFollowUser(id) {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("auth")}`,
+    },
+  };
+  return axios.post(
+    `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/users/${id}/unfollow`,[],
+    config
+  );
+}
+
+function getFollowedUsers () {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("auth")}`,
+    },
+  };
+  return axios.get(
+    `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/users/follows`,
+    config
+  );
+}
+
 export {
   LoginReq,
   SignupReq,
@@ -141,4 +177,7 @@ export {
   getMyPosts,
   getLikedPosts,
   getUserPosts,
+  followUser,
+  unFollowUser,
+  getFollowedUsers
 };
