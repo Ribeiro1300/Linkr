@@ -7,7 +7,9 @@ import EditPost from "./EditPost";
 export default function Posts({ postsList }) {
   const history = useHistory();
 
-  const userID = localStorage.getItem("userID");
+  const userID = localStorage.getItem('userID');
+
+  console.log(userID);
 
   return (
     <>
@@ -21,7 +23,7 @@ export default function Posts({ postsList }) {
           </ProfileAndLikes>
           <PostData>
             <h3>{info.user.username}</h3>
-            {info.user.id === userID ? (
+            {info.user.id.toString() === userID ? (
               <EditPost info={info}/>
               ) : (
               <ReactHashtag
@@ -75,6 +77,7 @@ const PostData = styled.div`
   width: 85%;
   flex-direction: column;
   justify-content: center;
+  position: relative;
 `;
 
 const LinkInfo = styled.a`
