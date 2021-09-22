@@ -17,17 +17,7 @@ export default function EditPost({ info, setReload }) {
 
     useEffect(() => {
         if (isEditing) {
-            inputRef.current.focus();        
-            window.addEventListener('keydown', (event) => {
-                if (event.key === "Escape") {
-                setEditing(false); }
-            });
-            return () => {
-                window.removeEventListener('keydown', (event) => {
-                    if (event.key === "Escape") {
-                    setEditing(false); }
-                });
-            }
+            inputRef.current.focus();   
         }    
     }, [isEditing]);
 
@@ -50,13 +40,24 @@ export default function EditPost({ info, setReload }) {
             });
     }
 
+    function handleKeysPressed (event){
+
+        if(event.key === "Enter") {
+            publishEditedPost();
+        }
+    
+        if(event.key === "Escape") {
+            setEditing(false);
+        }
+    }
+
   return (
     <>
         <EditPostIcon onClick={ () => { setEditing(!isEditing); setPostText(info.text);} }>
             <TiPencil size="1.2em"/>
         </EditPostIcon>
         {isEditing ? 
-            (<form onSubmit={publishEditedPost}>
+            (<form>
                 <PostTextInput 
                     type="text" 
                     ref={inputRef} 
@@ -65,7 +66,7 @@ export default function EditPost({ info, setReload }) {
                     value={postText} 
                     wrap="soft" 
                     disabled={sendingEdit}
-                    onKeyPress={(e) => {if(e.key === "Enter") publishEditedPost()} }
+                    onKeyDown={handleKeysPressed}
                 />
             </form>
             ) : ( <ReactHashtag onHashtagClick={(val) => history.push("/hashtag/:" + val.slice(1)) }>
