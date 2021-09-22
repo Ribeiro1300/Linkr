@@ -8,6 +8,7 @@ export default function Trending() {
   const history = useHistory();
 
   const [trendingHashtags, setTrendingHashtags] = useState([]); 
+  const [searchHashtag, setSearchHashtag] = useState(); 
 
   useEffect(() => {
 
@@ -26,6 +27,16 @@ export default function Trending() {
         <Line/>
           {trendingHashtags.map( trendingHashtags => <HashtagText onClick={ () => history.push(`/hashtag/:${trendingHashtags.name}`) }>
             # {trendingHashtags.name}</HashtagText> )}
+        <SearchHashtagBox>
+          <HashtagIcon>#</HashtagIcon>
+          <form onSubmit={() => history.push(`/hashtag/:${searchHashtag}`)} >
+            <HashtagInput 
+            placeholder="type a hashtag" 
+            type="text" 
+            value={searchHashtag}
+            onChange={(e) => setSearchHashtag(e.target.value)}/>
+          </form>
+        </SearchHashtagBox>
       </TrendingBox>
     </TrendingContainer>
   );
@@ -81,3 +92,42 @@ const HashtagText = styled.h2`
   word-break: break-all;
   cursor: pointer;
 `; 
+
+const SearchHashtagBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin-top: 10px;
+  font-family: Lato;
+  font-weight: bold;
+  color: #FFFFFF;
+  font-size: 19px;
+`;
+
+const HashtagIcon = styled.div`
+  position: absolute;
+  top: 7px;
+  left: 25px;
+`;
+
+const HashtagInput = styled.input`
+  width: 269px;
+  height: 35px;
+  background: #252525;
+  border-radius: 8px;
+  border: none;
+  padding-left: 30px;
+  padding-bottom: 7px;
+  font-family: Lato;
+  font-weight: bold;
+  color: #FFFFFF;
+  font-size: 19px;
+  ::placeholder {
+    font-family: Lato;
+    font-style: italic;
+    font-weight: normal;
+    font-size: 16px;
+    color: #575757;
+  }
+`;
