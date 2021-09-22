@@ -25,7 +25,7 @@ export default function Profile() {
       })
       .catch();
     setIsLoading(false);
-  }, []);
+  }, [reload]);
 
   function CheckPosts() {
     return usersPosts.length === 0 ? (

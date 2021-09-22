@@ -26,7 +26,7 @@ export default function Timeline() {
         alert("Houve uma falha ao obter os posts, por favor atualize a página")
       );
     setIsLoading(false);
-  }, []);
+  }, [reload]);
 
   function CheckPosts() {
     return allPosts.length === 0 ? (
