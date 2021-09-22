@@ -1,33 +1,20 @@
 import styled from "styled-components";
 import { Link, useHistory } from "react-router-dom";
 import ReactHashtag from "react-hashtag";
-import { FaTrash } from "react-icons/fa";
 import LikeButton from "./LikeButton";
 import React from "react";
 import axios from "axios";
 import EditPost from "./EditPost";
+import DeletePost from "./DeletePost";
 
 export default function Posts({ postsList }) {
   const history = useHistory();
   const [modalIsOpen, setIsOpen] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
 
-  const userID = localStorage.getItem('userID');
+  const userID = localStorage.getItem("userID");
 
-  function deletePost(props) {
-    setIsLoading(true);
-    axios
-      .delete(
-        `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/posts/${props}`,
-        localStorage.getItem("auth")
-      )
-      .then(() => {
-        setIsOpen(false);
-        history.push("/timeline");
-      })
-      .catch(() => alert("Não foi possível excluir o post, tente novamente!"));
-  }
-
+  console.log(userID);
   return (
     <>
       {postsList.map((info, index) => (
@@ -44,20 +31,23 @@ export default function Posts({ postsList }) {
           </ProfileAndLikes>
           <PostData>
             <h3>{info.user.username}</h3>
-            {info.user.id.toString() === userID ? (
+            {info.user.id.toString() == userID ? (
               <>
-              <div>
-                <FaTrash />
-              </div>
-              <EditPost info={info}/>
+                <div>
+                  <DeletePost info={info} />
+                </div>
+                <EditPost info={info} />
               </>
-            ) : <ReactHashtag
-            onHashtagClick={(val) =>
-              history.push("/hashtag/:" + val.slice(1))
+            ) : null}
+            {
+              <ReactHashtag
+                onHashtagClick={(val) =>
+                  history.push("/hashtag/:" + val.slice(1))
+                }
+              >
+                {info.text}
+              </ReactHashtag>
             }
-          >
-            {info.text}
-          </ReactHashtag>}
             <LinkInfo href={info.link} target="_blank">
               <LinkTexts>
                 <h4>{info.linkTitle}</h4>
@@ -104,6 +94,13 @@ const PostData = styled.div`
   flex-direction: column;
   justify-content: center;
   position: relative;
+
+  div:first-child {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: red;
+  }
 `;
 
 const LinkInfo = styled.a`
