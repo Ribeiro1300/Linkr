@@ -2,11 +2,14 @@ import styled from "styled-components";
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { IoChevronDown, IoChevronUp } from "react-icons/io5";
+import { getFollowedUsers } from "./Api";
+import UserSearchBar from "./UserSearchBar";
 
 export default function TopBar() {
 
   const [avatar,setAvatar] = useState('');
   const [isActive, setIsActive] = useState(false);
+  const [followedUsers,setFollowedUsers] = useState([]);
 
   const history = useHistory();
   
@@ -19,6 +22,12 @@ export default function TopBar() {
       history.push("/");
       return;
     }
+
+    getFollowedUsers()
+        .then((res) => setFollowedUsers(res.data.users))
+        .catch((err) =>
+        alert("Houve uma falha ao obter os usuários que você segue, por favor atualize a página")
+    );
 
     setAvatar( JSON.parse(localStorage.getItem('user')).avatar );
   }, []);
@@ -33,6 +42,7 @@ export default function TopBar() {
       <Logo>
         <StyledLink to="/timeline"><h2>Linkr</h2></StyledLink>
       </Logo>
+      <UserSearchBar/>
           <UserBox onClick={onClick} >
             { isActive ? <IoChevronUp size="1.8em"/> : <IoChevronDown size="1.8em"/> }
             <UserAvatar src={avatar} />
