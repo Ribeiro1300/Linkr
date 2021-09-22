@@ -14,7 +14,6 @@ export default function Posts({ postsList }) {
 
   const userID = localStorage.getItem("userID");
 
-  console.log(userID);
   return (
     <>
       {postsList.map((info, index) => (
@@ -30,15 +29,15 @@ export default function Posts({ postsList }) {
             />
           </ProfileAndLikes>
           <PostData>
-            <h3>{info.user.username}</h3>
-            {info.user.id.toString() == userID ? (
-              <>
-                <div>
-                  <DeletePost info={info} />
-                </div>
-                <EditPost info={info} />
-              </>
-            ) : null}
+              <h3>
+                {info.user.username}
+                {info.user.id.toString() == userID ? (
+                  <EditWrapper>
+                    <DeletePost info={info} />
+                    <EditPost info={info} />
+                  </EditWrapper>
+                ) : null}
+              </h3>
             {
               <ReactHashtag
                 onHashtagClick={(val) =>
@@ -94,12 +93,9 @@ const PostData = styled.div`
   flex-direction: column;
   justify-content: center;
   position: relative;
-
-  div:first-child {
+  h3 {
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
-    background-color: red;
   }
 `;
 
@@ -120,4 +116,11 @@ const LinkTexts = styled.div`
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
+`;
+const EditWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: red;
+  position: relative;
 `;
