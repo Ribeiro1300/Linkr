@@ -1,7 +1,7 @@
 import { sendPostEdit } from "./Api";
 import React, { useRef, useState, useEffect } from "react";
 import { useHistory } from "react-router";
-import { IoPencilSharp } from "react-icons/io5";
+import { TiPencil } from "react-icons/ti";
 import styled from "styled-components";
 import ReactHashtag from "react-hashtag";
 
@@ -53,7 +53,7 @@ export default function EditPost({ info, setReload }) {
   return (
     <>
         <EditPostIcon onClick={ () => { setEditing(!isEditing); setPostText(info.text);} }>
-            <IoPencilSharp size="1em"/>
+            <TiPencil size="1.2em"/>
         </EditPostIcon>
         {isEditing ? 
             (<form onSubmit={publishEditedPost}>
@@ -80,12 +80,12 @@ export default function EditPost({ info, setReload }) {
 const EditPostIcon = styled.div`
     position: absolute;
     top: 0;
-    right: 45px;
+    right: 30px;
     cursor: pointer;
 `;
 
 const PostTextInput = styled.textarea`
-    margin: 5px 0 5px 0;
+    margin: 10px 0 5px 0;
     height: 66px;
     resize: none;
     font-family: Lato;

@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { Link, useHistory } from "react-router-dom";
 import ReactHashtag from "react-hashtag";
-import { FaTrash } from "react-icons/fa";
 import LikeButton from "./LikeButton";
 import React from "react";
 import axios from "axios";
@@ -45,12 +44,7 @@ export default function Posts({ postsList, setReload }) {
           <PostData>
             <h3>{info.user.username}</h3>
             {info.user.id.toString() === userID ? (
-              <>
-              <div>
-                <FaTrash />
-              </div>
               <EditPost info={info} setReload={setReload}/>
-              </>
             ) : <ReactHashtag
             onHashtagClick={(val) =>
               history.push("/hashtag/:" + val.slice(1))
