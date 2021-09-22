@@ -7,7 +7,7 @@ import React from "react";
 import axios from "axios";
 import EditPost from "./EditPost";
 
-export default function Posts({ postsList }) {
+export default function Posts({ postsList, setReload }) {
   const history = useHistory();
   const [modalIsOpen, setIsOpen] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -49,7 +49,7 @@ export default function Posts({ postsList }) {
               <div>
                 <FaTrash />
               </div>
-              <EditPost info={info}/>
+              <EditPost info={info} setReload={setReload}/>
               </>
             ) : <ReactHashtag
             onHashtagClick={(val) =>

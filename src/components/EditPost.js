@@ -5,7 +5,7 @@ import { IoPencilSharp } from "react-icons/io5";
 import styled from "styled-components";
 import ReactHashtag from "react-hashtag";
 
-export default function EditPost({info}) {
+export default function EditPost({ info, setReload }) {
 
     const [isEditing, setEditing]=useState(false);
     const [sendingEdit, setSendingEdit] = useState(false);
@@ -33,13 +33,7 @@ export default function EditPost({info}) {
 
     function publishEditedPost () {
 
-        console.log(info.id);
-        console.log(postText);
-
-        if ( postText === '' || postText === null ) {
-            alert("Por favor preencha o link que queira compartilhar")
-            return
-        }
+        setReload(false);
 
         setSendingEdit(true);
 
@@ -48,7 +42,7 @@ export default function EditPost({info}) {
             .then(res => { 
                 setEditing(false);
                 setSendingEdit(false);
-                history.push("/");
+                setReload(true);
             })
             .catch(err => {
                 setSendingEdit(false)

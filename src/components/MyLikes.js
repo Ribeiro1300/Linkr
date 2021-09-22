@@ -32,7 +32,7 @@ export default function MyLikes() {
         return allPosts.length === 0 ? (
         <h2>Nenhum post encontrado</h2>
         ) : (
-        <Posts postsList={allPosts} />
+        <Posts postsList={allPosts} setReload={setReload}/>
         );
     }
 

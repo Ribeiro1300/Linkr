@@ -31,7 +31,7 @@ export default function Timeline() {
     return allPosts.length === 0 ? (
       <h2>Nenhum post encontrado</h2>
     ) : (
-      <Posts postsList={allPosts} />
+      <Posts postsList={allPosts} setReload={setReload}/>
     );
   }
   return (

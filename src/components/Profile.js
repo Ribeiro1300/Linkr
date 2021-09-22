@@ -32,7 +32,7 @@ export default function Profile() {
     ) : (
       <>
         <PageTitle>{usersPosts[0].user.username + "'s posts"}</PageTitle>
-        <Posts postsList={usersPosts} />
+        <Posts postsList={usersPosts} setReload={setReload}/>
       </>
     );
   }
