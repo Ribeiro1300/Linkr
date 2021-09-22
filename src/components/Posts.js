@@ -1,15 +1,18 @@
 import styled from "styled-components";
 import { Link, useHistory } from "react-router-dom";
+import { useState } from "react";
 import ReactHashtag from "react-hashtag";
-import { FaTrash } from "react-icons/fa";
 import LikeButton from "./LikeButton";
 import React from "react";
 import axios from "axios";
+import EditPost from "./EditPost";
 
-export default function Posts({ postsList }) {
+export default function Posts({ postsList, setReload }) {
   const history = useHistory();
-  const [modalIsOpen, setIsOpen] = React.useState(false);
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [modalIsOpen, setIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [userID, setPostText] = useState((JSON.parse(localStorage.getItem("user"))).id);
 
   function deletePost(props) {
     setIsLoading(true);
@@ -41,21 +44,15 @@ export default function Posts({ postsList }) {
           </ProfileAndLikes>
           <PostData>
             <h3>{info.user.username}</h3>
-            {info.user.id === localStorage.getItem("userId") ? (
-              <div>
-                <FaTrash />
-                editar e excluir
-              </div>
-            ) : null}
-            {
-              <ReactHashtag
-                onHashtagClick={(val) =>
-                  history.push("/hashtag/:" + val.slice(1))
-                }
-              >
-                {info.text}
-              </ReactHashtag>
+            {info.user.id === userID ? (
+              <EditPost info={info} setReload={setReload}/>
+            ) : <ReactHashtag
+            onHashtagClick={(val) =>
+              history.push("/hashtag/:" + val.slice(1))
             }
+          >
+            {info.text}
+          </ReactHashtag>}
             <LinkInfo href={info.link} target="_blank">
               <LinkTexts>
                 <h4>{info.linkTitle}</h4>
@@ -101,6 +98,7 @@ const PostData = styled.div`
   width: 85%;
   flex-direction: column;
   justify-content: center;
+  position: relative;
 `;
 
 const LinkInfo = styled.a`

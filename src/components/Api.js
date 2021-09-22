@@ -129,6 +129,17 @@ function getUserPosts(id) {
   );
 }
 
+function sendPostEdit(postID, body) {
+    const config = {headers: {
+    "Authorization" : `Bearer ${localStorage.getItem("auth")}`
+    }
+    }
+    
+    return axios.put(
+    `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/posts/${postID}`, body, config
+    );
+}
+
 export {
   LoginReq,
   SignupReq,
@@ -141,4 +152,5 @@ export {
   getMyPosts,
   getLikedPosts,
   getUserPosts,
+  sendPostEdit
 };
