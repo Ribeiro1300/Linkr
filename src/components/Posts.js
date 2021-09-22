@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Link, useHistory } from "react-router-dom";
+import { useState } from "react";
 import ReactHashtag from "react-hashtag";
 import LikeButton from "./LikeButton";
 import React from "react";
@@ -8,10 +9,10 @@ import EditPost from "./EditPost";
 
 export default function Posts({ postsList, setReload }) {
   const history = useHistory();
-  const [modalIsOpen, setIsOpen] = React.useState(false);
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [modalIsOpen, setIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const userID = localStorage.getItem('userID');
+  const [userID, setPostText] = useState((JSON.parse(localStorage.getItem("user"))).id);
 
   function deletePost(props) {
     setIsLoading(true);
@@ -43,7 +44,7 @@ export default function Posts({ postsList, setReload }) {
           </ProfileAndLikes>
           <PostData>
             <h3>{info.user.username}</h3>
-            {info.user.id.toString() === userID ? (
+            {info.user.id === userID ? (
               <EditPost info={info} setReload={setReload}/>
             ) : <ReactHashtag
             onHashtagClick={(val) =>
