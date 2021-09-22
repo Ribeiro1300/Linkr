@@ -10,6 +10,7 @@ export default function Hashtag() {
 
   const [isLoading, setIsLoading] = useState(true);
   const [allPosts, setAllPosts] = useState([]);
+  const [reload, setReload] = useState(false);
 
   const history = useHistory();
 

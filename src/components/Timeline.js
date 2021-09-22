@@ -11,6 +11,7 @@ export default function Timeline() {
   const [isLoading, setIsLoading] = useState(true);
   const [allPosts, setAllPosts] = useState([]);
   const history = useHistory();
+  const [reload, setReload] = useState(false);
 
   useEffect(() => {
     if (!localStorage.getItem("auth")) {

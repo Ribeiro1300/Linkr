@@ -12,6 +12,7 @@ export default function Profile() {
   const { id } = useParams();
   const [isLoading, setIsLoading] = useState(true);
   const [usersPosts, setUsersPosts] = useState([]);
+  const [reload, setReload] = useState(false);
   useEffect(() => {
     if (!localStorage.getItem("auth")) {
       alert("Faça login antes!");
