@@ -127,6 +127,14 @@ function getFollowedUsers () {
   );
 }
 
+function sendPostEdit(postID, body) {
+    const config = generateConfig();
+    
+    return axios.put(
+    `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/posts/${postID}`, body, config
+    );
+}
+
 function generateConfig () {
   const config = {
     headers: {
@@ -150,5 +158,6 @@ export {
   getUserPosts,
   followUser,
   unFollowUser,
-  getFollowedUsers
+  getFollowedUsers,
+  sendPostEdit
 };

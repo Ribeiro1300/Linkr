@@ -14,7 +14,8 @@ export default function Profile() {
   const [isLoading, setIsLoading] = useState(true);
   const [usersPosts, setUsersPosts] = useState([]);
   const [followedUsers, setUserFollowed] = useState()
-
+  const [reload, setReload] = useState(false);
+  
   useEffect(() => {
     if (!localStorage.getItem("auth")) {
       alert("Faça login antes!");
@@ -30,7 +31,7 @@ export default function Profile() {
       })
       .catch();
     setIsLoading(false);
-  }, []);
+  }, [reload]);
 
   function CheckPosts() {
     return usersPosts.length === 0 ? (
@@ -42,7 +43,7 @@ export default function Profile() {
           <FollowButton userId={id} followers={followedUsers}/>
         </UserProfile>
         
-        <Posts postsList={usersPosts} />
+        <Posts postsList={usersPosts} setReload={setReload}/>
       </>
     );
   }

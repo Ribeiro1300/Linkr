@@ -11,6 +11,7 @@ export default function Timeline() {
   const [isLoading, setIsLoading] = useState(true);
   const [allPosts, setAllPosts] = useState([]);
   const history = useHistory();
+  const [reload, setReload] = useState(false);
 
   useEffect(() => {
     if (!localStorage.getItem("auth")) {
@@ -25,13 +26,13 @@ export default function Timeline() {
         alert("Houve uma falha ao obter os posts, por favor atualize a página")
       );
     setIsLoading(false);
-  }, []);
+  }, [reload]);
 
   function CheckPosts() {
     return allPosts.length === 0 ? (
       <h2>Nenhum post encontrado</h2>
     ) : (
-      <Posts postsList={allPosts} />
+      <Posts postsList={allPosts} setReload={setReload}/>
     );
   }
   return (
