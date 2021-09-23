@@ -22,9 +22,7 @@ export default function Signup() {
 
   useEffect(() => {
     if (response !== undefined) {
-      localStorage.setItem('user', response.user)
-      localStorage.setItem('auth', response.token)
-      history.push("/timeline",response)
+      history.push("/",response)
     }
     setLoading(false)
   },[response])
@@ -45,7 +43,7 @@ export default function Signup() {
       .then((res) => setResponse(res.data))
       .catch((err) => {
         setLoading(false);
-        alert(JSON.parse(err.request.response).message);
+        alert(err.request.response.message);
       });
     setLoading(true);
   }
