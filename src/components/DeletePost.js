@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import Modal from "react-modal";
 import styled from "styled-components";
+import { sendDeletePost } from "./Api";
 
 export default function DeletePost({ info }) {
   const history = useHistory();
@@ -62,18 +63,8 @@ export default function DeletePost({ info }) {
   );
 }
 
-function deletePost(info, setIsOpen, history) {
-  console.log(info, setIsOpen, history);
-  const config = {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("auth")}`,
-    },
-  };
-  axios
-    .delete(
-      `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/posts/${info.id}`,
-      config
-    )
+function deletePost(info, setIsOpen) {
+  sendDeletePost(info)
     .then(() => {
       setIsOpen(false);
       window.location.reload(false);

@@ -1,46 +1,25 @@
 import { sendPostEdit } from "./Api";
 import React, { useRef, useState, useEffect } from "react";
 import { useHistory } from "react-router";
-import { IoPencilSharp } from "react-icons/io5";
+import { TiPencil } from "react-icons/ti";
 import styled from "styled-components";
 import ReactHashtag from "react-hashtag";
 
-export default function EditPost({ info }) {
+export default function EditPost({ info, setReload }) {
   const [isEditing, setEditing] = useState(false);
   const [sendingEdit, setSendingEdit] = useState(false);
   const [postText, setPostText] = useState("");
-
   const history = useHistory();
-
   const inputRef = useRef();
 
   useEffect(() => {
     if (isEditing) {
       inputRef.current.focus();
-      window.addEventListener("keydown", (event) => {
-        if (event.key === "Escape") {
-          setEditing(false);
-        }
-      });
-      return () => {
-        window.removeEventListener("keydown", (event) => {
-          if (event.key === "Escape") {
-            setEditing(false);
-          }
-        });
-      };
     }
   }, [isEditing]);
 
   function publishEditedPost() {
-    console.log(info.id);
-    console.log(postText);
-
-    if (postText === "" || postText === null) {
-      alert("Por favor preencha o link que queira compartilhar");
-      return;
-    }
-
+    setReload(false);
     setSendingEdit(true);
 
     const promise = sendPostEdit(info.id, { text: postText });
@@ -48,12 +27,22 @@ export default function EditPost({ info }) {
       .then((res) => {
         setEditing(false);
         setSendingEdit(false);
-        history.push("/");
+        setReload(true);
       })
       .catch((err) => {
         setSendingEdit(false);
         alert("Não foi possível salvar as alterações ");
       });
+  }
+
+  function handleKeysPressed(event) {
+    if (event.key === "Enter") {
+      publishEditedPost();
+    }
+
+    if (event.key === "Escape") {
+      setEditing(false);
+    }
   }
 
   return (
@@ -64,10 +53,10 @@ export default function EditPost({ info }) {
           setPostText(info.text);
         }}
       >
-        <IoPencilSharp size="1em" />
+        <TiPencil size="1.2em" />
       </EditPostIcon>
       {isEditing ? (
-        <form onSubmit={publishEditedPost}>
+        <form>
           <PostTextInput
             type="text"
             ref={inputRef}
@@ -76,12 +65,16 @@ export default function EditPost({ info }) {
             value={postText}
             wrap="soft"
             disabled={sendingEdit}
-            onKeyPress={(e) => {
-              if (e.key === "Enter") publishEditedPost();
-            }}
+            onKeyDown={handleKeysPressed}
           />
         </form>
-      ) : null}
+      ) : (
+        <ReactHashtag
+          onHashtagClick={(val) => history.push("/hashtag/:" + val.slice(1))}
+        >
+          {info.text}
+        </ReactHashtag>
+      )}
     </>
   );
 }
@@ -89,12 +82,12 @@ export default function EditPost({ info }) {
 const EditPostIcon = styled.div`
   position: absolute;
   top: 0;
-  right: 45px;
+  right: 30px;
   cursor: pointer;
 `;
 
 const PostTextInput = styled.textarea`
-  margin: 5px 0 5px 0;
+  margin: 10px 0 5px 0;
   height: 66px;
   resize: none;
   font-family: Lato;
