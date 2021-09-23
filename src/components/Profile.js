@@ -4,35 +4,46 @@ import Posts from "./Posts";
 import Loader from "react-loader-spinner";
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
-import axios from "axios";
-import { getUserPosts } from "./Api";
+import { getUserPosts,getFollowedUsers } from "./Api";
+import FollowButton from "./FollowButton";
+import styled from "styled-components";
 
 export default function Profile() {
   const history = useHistory();
   const { id } = useParams();
   const [isLoading, setIsLoading] = useState(true);
   const [usersPosts, setUsersPosts] = useState([]);
+  const [followedUsers, setUserFollowed] = useState()
+  const [reload, setReload] = useState(false);
+  
   useEffect(() => {
     if (!localStorage.getItem("auth")) {
       alert("Faça login antes!");
       history.push("/");
       return;
     }
+    getFollowedUsers()
+      .then(res => setUserFollowed(res.data.users))
+        .catch(err => alert(err.request.response))
     getUserPosts(id)
       .then((res) => {
         setUsersPosts(res.data.posts);
       })
       .catch();
     setIsLoading(false);
-  }, []);
+  }, [reload]);
 
   function CheckPosts() {
     return usersPosts.length === 0 ? (
       <h2>Nenhum post encontrado</h2>
     ) : (
       <>
-        <PageTitle>{usersPosts[0].user.username + "'s posts"}</PageTitle>
-        <Posts postsList={usersPosts} />
+        <UserProfile>
+          <PageTitle>{usersPosts[0].user.username + "'s posts"}</PageTitle>
+          <FollowButton userId={id} followers={followedUsers}/>
+        </UserProfile>
+        
+        <Posts postsList={usersPosts} setReload={setReload}/>
       </>
     );
   }
@@ -49,3 +60,9 @@ export default function Profile() {
     </Container>
   );
 }
+
+const UserProfile = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;

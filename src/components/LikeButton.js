@@ -33,6 +33,7 @@ export default function LikeButton ({info,index}) {
 
     function validationFunc (arr, index, type) {
         let newArr = arr;
+        let length = newArr.length;
         if(type === 'userLiked') {
             if (newArr === []) {
                 newArr = ''
@@ -43,7 +44,12 @@ export default function LikeButton ({info,index}) {
             } else {
                 newArr.splice(index,1)
                 newArr.splice(0,0,'Você')
-                newArr = newArr.join(', ') + ' curtiram esse post';
+                if (length > 2) {
+                    newArr = [newArr[0],newArr[1]]
+                    newArr = newArr.join(', ') + ` e outras ${length - 2} pessoas`;
+                } else {
+                    newArr = newArr.join(', ') + ' curtiram esse post';
+                }     
             }
             return newArr
         } else {
@@ -52,7 +58,12 @@ export default function LikeButton ({info,index}) {
             } else if (newArr.length === 1) {
                 newArr = newArr.join(', ') + ' curtiu esse post';
             } else {
-                newArr = newArr.join(', ') + ' curtiram esse post';
+                if (length > 2) {
+                    newArr = [newArr[0],newArr[1]]
+                    newArr = newArr.join(', ') + ` e outras ${length - 2} pessoas`;
+                } else {
+                    newArr = newArr.join(', ') + ' curtiram esse post';
+                } 
             }
             return newArr
         }
@@ -65,13 +76,13 @@ export default function LikeButton ({info,index}) {
             const promise = LikePost(info.id)
             promise
                 .then(res => setLikes(res.data.post.likes))
-                .catch(err => alert(JSON.parse(err.request.response).message))
+                .catch(err => alert(err.request.response.message))
             return
         } else {
             const promise = DislikePost(info.id)
             promise
                 .then(res => setLikes(res.data.post.likes))
-                .catch(err => alert(JSON.parse(err.request.response).message))
+                .catch(err => alert(err.request.response.message))
             return
         }
         

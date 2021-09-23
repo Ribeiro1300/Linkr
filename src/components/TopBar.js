@@ -18,7 +18,7 @@ export default function TopBar() {
       return;
     }
 
-    setAvatar(JSON.parse(localStorage.getItem("user")).avatar);
+    setAvatar(JSON.parse(localStorage.getItem('user')).avatar );
   }, []);
 
   function Logout() {
