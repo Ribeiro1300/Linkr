@@ -16,29 +16,22 @@ export default function FollowButton ({ userId,followers }) {
             return
         }
         const followedIndex = followedUsers.findIndex(user => user.id == userId);
-        console.log(followedIndex,userId,followedUsers)
         if (followedIndex !== -1) {
             setFollow(true)
         } else {
             setFollow(false)
         }
-        console.log('oi')
         setLoading(false)
     },[])
 
     function handleClick () {
         setLoading(true)
-        if (userIsFollowed) {
-            const promise = unFollowUser(userId);
-            promise.then(res => res.data)
+        const promise = userIsFollowed ? unFollowUser(userId): followUser(userId);
+        promise.then(res => res.data)
             .catch((err) => alert(err.request.response))
-            setFollow(false)
-        } else {
-            const promise = followUser(userId);
-            promise.then(res => res.data)
-            .catch((err) => alert(err.request.response))
-            setFollow(true)      
-        }
+            
+        setFollow(!userIsFollowed)
+
         setTimeout(() => {
             setLoading(false)
         },1000)

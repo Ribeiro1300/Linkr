@@ -15,11 +15,8 @@ function SignupReq(body) {
 }
 
 function getTrendingHashtags() {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("auth")}`,
-    },
-  };
+  const config = generateConfig();
+
   return axios.get(
     `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/hashtags/trending`,
     config
@@ -27,11 +24,8 @@ function getTrendingHashtags() {
 }
 
 function getHashtagPosts(hashtagName) {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("auth")}`,
-    },
-  };
+  const config = generateConfig();
+
   return axios.get(
     `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/hashtags/${hashtagName}/posts`,
     config
@@ -39,11 +33,8 @@ function getHashtagPosts(hashtagName) {
 }
 
 function getPosts() {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("auth")}`,
-    },
-  };
+  const config = generateConfig();
+
   return axios.get(
     `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/posts`,
     config
@@ -51,11 +42,7 @@ function getPosts() {
 }
 
 function LikePost(body) {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("auth")}`,
-    },
-  };
+  const config = generateConfig();
 
   return axios.post(
     `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/posts/${body}/like`,
@@ -65,11 +52,8 @@ function LikePost(body) {
 }
 
 function DislikePost(body) {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("auth")}`,
-    },
-  };
+  const config = generateConfig();
+
   return axios.post(
     `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/posts/${body}/dislike`,
     [],
@@ -78,11 +62,7 @@ function DislikePost(body) {
 }
 
 function sendCreatePost(body) {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("auth")}`,
-    },
-  };
+  const config = generateConfig();
 
   return axios.post(
     `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/posts`,
@@ -92,11 +72,8 @@ function sendCreatePost(body) {
 }
 
 function getMyPosts() {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("auth")}`,
-    },
-  };
+  const config = generateConfig();
+
   return axios.get(
     `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/users/${
       JSON.parse(localStorage.getItem("user")).id
@@ -106,11 +83,8 @@ function getMyPosts() {
 }
 
 function getLikedPosts() {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("auth")}`,
-    },
-  };
+  const config = generateConfig();
+
   return axios.get(
     `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/posts/liked`,
     config
@@ -118,11 +92,8 @@ function getLikedPosts() {
 }
 
 function getUserPosts(id) {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("auth")}`,
-    },
-  };
+  const config = generateConfig();
+
   return axios.get(
     `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/users/${id}/posts`,
     config
@@ -130,11 +101,8 @@ function getUserPosts(id) {
 }
 
 function followUser(id) {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("auth")}`,
-    },
-  };
+  const config = generateConfig();
+
   return axios.post(
     `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/users/${id}/follow`, [],
     config
@@ -142,11 +110,8 @@ function followUser(id) {
 }
 
 function unFollowUser(id) {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("auth")}`,
-    },
-  };
+  const config = generateConfig();
+
   return axios.post(
     `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/users/${id}/unfollow`,[],
     config
@@ -154,15 +119,21 @@ function unFollowUser(id) {
 }
 
 function getFollowedUsers () {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("auth")}`,
-    },
-  };
+  const config = generateConfig();
+  
   return axios.get(
     `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/users/follows`,
     config
   );
+}
+
+function generateConfig () {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("auth")}`,
+    }
+  };
+  return config
 }
 
 export {
