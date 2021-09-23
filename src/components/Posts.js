@@ -29,15 +29,15 @@ export default function Posts({ postsList }) {
             />
           </ProfileAndLikes>
           <PostData>
-              <h3>
-                {info.user.username}
-                {info.user.id.toString() == userID ? (
-                  <EditWrapper>
-                    <DeletePost info={info} />
-                    <EditPost info={info} />
-                  </EditWrapper>
-                ) : null}
-              </h3>
+            <h3>
+              {info.user.username}
+              {info.user.id.toString() == userID ? (
+                <EditWrapper>
+                  <DeletePost info={info} />
+                  <EditPost info={info} />
+                </EditWrapper>
+              ) : null}
+            </h3>
             {
               <ReactHashtag
                 onHashtagClick={(val) =>
@@ -71,6 +71,10 @@ const Post = styled.div`
   margin-bottom: 20px;
   color: #ffff;
   padding: 10px;
+
+  @media (max-width: 413) {
+    width: 100%;
+  }
 `;
 const ProfileAndLikes = styled.div`
   display: flex;
@@ -78,6 +82,7 @@ const ProfileAndLikes = styled.div`
   justify-content: flex-start;
   align-items: center;
   width: 15%;
+
   img {
     width: 70px;
     height: 70px;
