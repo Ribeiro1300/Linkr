@@ -104,7 +104,8 @@ function followUser(id) {
   const config = generateConfig();
 
   return axios.post(
-    `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/users/${id}/follow`, [],
+    `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/users/${id}/follow`,
+    [],
     config
   );
 }
@@ -113,14 +114,15 @@ function unFollowUser(id) {
   const config = generateConfig();
 
   return axios.post(
-    `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/users/${id}/unfollow`,[],
+    `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/users/${id}/unfollow`,
+    [],
     config
   );
 }
 
-function getFollowedUsers () {
+function getFollowedUsers() {
   const config = generateConfig();
-  
+
   return axios.get(
     `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/users/follows`,
     config
@@ -128,20 +130,38 @@ function getFollowedUsers () {
 }
 
 function sendPostEdit(postID, body) {
-    const config = generateConfig();
-    
-    return axios.put(
-    `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/posts/${postID}`, body, config
-    );
-}
-
-function generateConfig () {
   const config = {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("auth")}`,
-    }
+    },
   };
-  return config
+
+  return axios.put(
+    `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/posts/${postID}`,
+    body,
+    config
+  );
+}
+
+function sendDeletePost(info) {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("auth")}`,
+    },
+  };
+  return axios.delete(
+    `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/posts/${info.id}`,
+    config
+  );
+}
+
+function generateConfig() {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("auth")}`,
+    },
+  };
+  return config;
 }
 
 export {
@@ -159,5 +179,6 @@ export {
   followUser,
   unFollowUser,
   getFollowedUsers,
-  sendPostEdit
+  sendPostEdit,
+  sendDeletePost,
 };

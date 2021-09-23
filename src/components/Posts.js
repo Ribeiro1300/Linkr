@@ -6,13 +6,16 @@ import LikeButton from "./LikeButton";
 import React from "react";
 import axios from "axios";
 import EditPost from "./EditPost";
+import DeletePost from "./DeletePost";
 
 export default function Posts({ postsList, setReload }) {
   const history = useHistory();
   const [modalIsOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const [userID, setPostText] = useState((JSON.parse(localStorage.getItem("user"))).id);
+  const [userID, setPostText] = useState(
+    JSON.parse(localStorage.getItem("user")).id
+  );
 
   function deletePost(props) {
     setIsLoading(true);
@@ -43,16 +46,24 @@ export default function Posts({ postsList, setReload }) {
             />
           </ProfileAndLikes>
           <PostData>
-            <h3>{info.user.username}</h3>
-            {info.user.id === userID ? (
-              <EditPost info={info} setReload={setReload}/>
-            ) : <ReactHashtag
-            onHashtagClick={(val) =>
-              history.push("/hashtag/:" + val.slice(1))
+            <h3>
+              {info.user.username}
+              {info.user.id.toString() == userID ? (
+                <EditWrapper>
+                  <DeletePost info={info} />
+                  <EditPost info={info} setReload={setReload} />
+                </EditWrapper>
+              ) : null}
+            </h3>
+            {
+              <ReactHashtag
+                onHashtagClick={(val) =>
+                  history.push("/hashtag/:" + val.slice(1))
+                }
+              >
+                {info.text}
+              </ReactHashtag>
             }
-          >
-            {info.text}
-          </ReactHashtag>}
             <LinkInfo href={info.link} target="_blank">
               <LinkTexts>
                 <h4>{info.linkTitle}</h4>
@@ -99,6 +110,10 @@ const PostData = styled.div`
   flex-direction: column;
   justify-content: center;
   position: relative;
+  h3 {
+    display: flex;
+    justify-content: space-between;
+  }
 `;
 
 const LinkInfo = styled.a`
@@ -118,4 +133,11 @@ const LinkTexts = styled.div`
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
+`;
+const EditWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: red;
+  position: relative;
 `;
