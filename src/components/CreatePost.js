@@ -31,7 +31,7 @@ export default function CreatePost() {
             .catch(err => {
                 setIsPublishing(false)
                 alert("Houve um erro ao publicar seu link")
-                alert(JSON.parse(err.request.response).message)
+                alert(err.request.response.message)
             });
         setIsPublishing(true);
     }

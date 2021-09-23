@@ -15,11 +15,8 @@ function SignupReq(body) {
 }
 
 function getTrendingHashtags() {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("auth")}`,
-    },
-  };
+  const config = generateConfig();
+
   return axios.get(
     `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/hashtags/trending`,
     config
@@ -27,11 +24,8 @@ function getTrendingHashtags() {
 }
 
 function getHashtagPosts(hashtagName) {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("auth")}`,
-    },
-  };
+  const config = generateConfig();
+
   return axios.get(
     `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/hashtags/${hashtagName}/posts`,
     config
@@ -39,11 +33,8 @@ function getHashtagPosts(hashtagName) {
 }
 
 function getPosts() {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("auth")}`,
-    },
-  };
+  const config = generateConfig();
+
   return axios.get(
     `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/posts`,
     config
@@ -51,11 +42,7 @@ function getPosts() {
 }
 
 function LikePost(body) {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("auth")}`,
-    },
-  };
+  const config = generateConfig();
 
   return axios.post(
     `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/posts/${body}/like`,
@@ -65,11 +52,8 @@ function LikePost(body) {
 }
 
 function DislikePost(body) {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("auth")}`,
-    },
-  };
+  const config = generateConfig();
+
   return axios.post(
     `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/posts/${body}/dislike`,
     [],
@@ -78,11 +62,7 @@ function DislikePost(body) {
 }
 
 function sendCreatePost(body) {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("auth")}`,
-    },
-  };
+  const config = generateConfig();
 
   return axios.post(
     `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/posts`,
@@ -92,11 +72,8 @@ function sendCreatePost(body) {
 }
 
 function getMyPosts() {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("auth")}`,
-    },
-  };
+  const config = generateConfig();
+
   return axios.get(
     `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/users/${
       JSON.parse(localStorage.getItem("user")).id
@@ -106,11 +83,8 @@ function getMyPosts() {
 }
 
 function getLikedPosts() {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("auth")}`,
-    },
-  };
+  const config = generateConfig();
+
   return axios.get(
     `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/posts/liked`,
     config
@@ -118,13 +92,37 @@ function getLikedPosts() {
 }
 
 function getUserPosts(id) {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("auth")}`,
-    },
-  };
+  const config = generateConfig();
+
   return axios.get(
     `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/users/${id}/posts`,
+    config
+  );
+}
+
+function followUser(id) {
+  const config = generateConfig();
+
+  return axios.post(
+    `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/users/${id}/follow`, [],
+    config
+  );
+}
+
+function unFollowUser(id) {
+  const config = generateConfig();
+
+  return axios.post(
+    `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/users/${id}/unfollow`,[],
+    config
+  );
+}
+
+function getFollowedUsers () {
+  const config = generateConfig();
+  
+  return axios.get(
+    `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/users/follows`,
     config
   );
 }
@@ -153,6 +151,16 @@ function sendDeletePost(info) {
     `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/posts/${info.id}`,
     config
   );
+
+}
+
+function generateConfig () {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("auth")}`,
+    }
+  };
+  return config
 }
 
 export {
@@ -167,6 +175,10 @@ export {
   getMyPosts,
   getLikedPosts,
   getUserPosts,
+  sendPostEdit,
+  followUser,
+  unFollowUser,
+  getFollowedUsers,
   sendPostEdit,
   sendDeletePost,
 };
