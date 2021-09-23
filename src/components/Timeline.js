@@ -20,30 +20,37 @@ export default function Timeline() {
       history.push("/");
       return;
     }
+    let id = setInterval(() => {
+      getFollowedUsers().then((res) => {
+        if (res.data.users == []) {
+          setMsg("Você não segue ninguém ainda, procure por perfis na busca");
+          return;
+        }
+      });
 
-    let followedUsers = [];
-    getFollowedUsers().then((res) => {
-      followedUsers = res;
-    });
-    console.log(followedUsers);
-
-    if (followedUsers == []) {
-      setMsg("Você não segue ninguém ainda, procure por perfis na busca");
-      return;
-    }
-    getFollowedUsersPosts()
-      .then((res) => setAllPosts(res.data.posts))
-      .catch((err) =>
-        alert("Houve uma falha ao obter os posts, por favor atualize a página")
-      );
-    setIsLoading(false);
+      getFollowedUsersPosts()
+        .then((res) => {
+          let followedUsersPosts = res.data.posts.filter(
+            (info) =>
+              info.user.id != JSON.parse(localStorage.getItem("user")).id
+          );
+          setAllPosts(followedUsersPosts);
+        })
+        .catch((err) =>
+          alert(
+            "Houve uma falha ao obter os posts, por favor atualize a página"
+          )
+        );
+      setIsLoading(false);
+    }, 15000);
+    return () => clearInterval(id);
   }, [reload]);
 
   function CheckPosts() {
     return allPosts.length === 0 ? (
       <h2>{msg}</h2>
     ) : (
-      <Posts postsList={allPosts} setReload={setReload}/>
+      <Posts postsList={allPosts} setReload={setReload} />
     );
   }
   return (
