@@ -141,6 +141,18 @@ function getFollowedUsers() {
   );
 }
 
+function getSearchedUsers(userSearched) {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("auth")}`,
+    },
+  };
+  return axios.get(
+    `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/users/search?username=${userSearched}`,
+    config 
+  );
+}
+
 export {
   LoginReq,
   SignupReq,
@@ -153,5 +165,6 @@ export {
   getMyPosts,
   getLikedPosts,
   getUserPosts,
-  getFollowedUsers
+  getFollowedUsers,
+  getSearchedUsers
 };
