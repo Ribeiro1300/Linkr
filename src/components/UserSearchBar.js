@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { getSearchedUsers } from "./Api";
 import { AiOutlineSearch } from "react-icons/ai";
+import {DebounceInput} from 'react-debounce-input';
 
 export default function UserSearchBar() {
 
@@ -33,11 +34,14 @@ export default function UserSearchBar() {
   return (
     <SearchBarBox>
 
-            <SearchInput 
+            <DebounceInput 
+                minLength={3}
+                debounceTimeout={300}
                 placeholder="Search for people and friends " 
                 type="search"
                 value={inputValue}
                 onChange={(e) => updateValue(e.target.value)}
+                element={SearchInput}
             />
             <IconBox>
                 <AiOutlineSearch size="1.6em"/>
