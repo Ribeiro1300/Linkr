@@ -129,29 +129,40 @@ function getUserPosts(id) {
   );
 }
 
-function getFollowedUsers() {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("auth")}`,
-    },
-  };
-  return axios.get(
-    `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/users/follows`,
-    config
-  );
+function sendPostEdit(postID, body) {
+    const config = {headers: {
+    "Authorization" : `Bearer ${localStorage.getItem("auth")}`
+    }
+    }
+    
+    return axios.put(
+    `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/posts/${postID}`, body, config
+    );
 }
 
-function getSearchedUsers(userSearched) {
+function getFollowedUsers() {
   const config = {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("auth")}`,
-    },
+  headers: {
+  Authorization: `Bearer ${localStorage.getItem("auth")}`,
+  },
   };
   return axios.get(
-    `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/users/search?username=${userSearched}`,
-    config 
+  `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/users/follows`,
+  config
   );
-}
+  }
+  
+  function getSearchedUsers(userSearched) {
+  const config = {
+  headers: {
+  Authorization: `Bearer ${localStorage.getItem("auth")}`,
+  },
+  };
+  return axios.get(
+  `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/users/search?username=${userSearched}`,
+  config 
+  );
+  }
 
 export {
   LoginReq,
@@ -165,6 +176,7 @@ export {
   getMyPosts,
   getLikedPosts,
   getUserPosts,
+  sendPostEdit,
   getFollowedUsers,
   getSearchedUsers
 };
