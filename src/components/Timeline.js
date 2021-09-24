@@ -19,20 +19,24 @@ export default function Timeline() {
       history.push("/");
       return;
     }
-
-    getPosts()
-      .then((res) => setAllPosts(res.data.posts))
-      .catch((err) =>
-        alert("Houve uma falha ao obter os posts, por favor atualize a página")
-      );
-    setIsLoading(false);
+    let id = setInterval(() => {
+      getPosts()
+        .then((res) => setAllPosts(res.data.posts))
+        .catch((err) =>
+          alert(
+            "Houve uma falha ao obter os posts, por favor atualize a página"
+          )
+        );
+      setIsLoading(false);
+    }, 15000);
+    return () => clearInterval(id);
   }, [reload]);
 
   function CheckPosts() {
     return allPosts.length === 0 ? (
       <h2>Nenhum post encontrado</h2>
     ) : (
-      <Posts postsList={allPosts} setReload={setReload}/>
+      <Posts postsList={allPosts} setReload={setReload} />
     );
   }
   return (
