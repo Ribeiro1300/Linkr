@@ -163,18 +163,6 @@ function generateConfig() {
   };
   return config;
 }
-
-function getFollowedUsers() {
-  const config = {
-  headers: {
-  Authorization: `Bearer ${localStorage.getItem("auth")}`,
-  },
-  };
-  return axios.get(
-  `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/users/follows`,
-  config
-  );
-  }
   
   function getSearchedUsers(userSearched) {
   const config = {
