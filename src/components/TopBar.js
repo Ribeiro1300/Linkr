@@ -13,6 +13,7 @@ export default function TopBar() {
   const [followedUsers,setFollowedUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [options, setOptions] = useState([]);
+  const [inputValue, setInputValue] = useState('');
 
   const history = useHistory();
   
@@ -39,6 +40,12 @@ export default function TopBar() {
     localStorage.clear();
   }
 
+  function clearSearchBar() {
+    setLoading(false);
+    setOptions([]);
+    setInputValue('');
+  }
+
   return ( 
 
     <Top>
@@ -46,15 +53,14 @@ export default function TopBar() {
         <StyledLink to="/timeline"><h2>Linkr</h2></StyledLink>
       </Logo>
       <UserSearchBar 
-      loading={loading} 
-      setLoading={setLoading}
-      options={options}
-      setOptions={setOptions}
-      onClickOutside={() => { 
-        setLoading(false);
-        setOptions([]);
-      }}
-
+        loading={loading} 
+        setLoading={setLoading}
+        options={options}
+        setOptions={setOptions}
+        inputValue={inputValue}
+        setInputValue={setInputValue}
+        onClickOutside={clearSearchBar}
+        clearSearchBar={clearSearchBar}
       />
           <UserBox onClick={onClick} >
             { isActive ? <IoChevronUp size="1.8em"/> : <IoChevronDown size="1.8em"/> }

@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import { getSearchedUsers } from "./Api";
 import { AiOutlineSearch } from "react-icons/ai";
-import {DebounceInput} from 'react-debounce-input';
+import { DebounceInput } from 'react-debounce-input';
+import { useHistory } from "react-router";
 
 const useClickOutside = (ref, callback) => {
     const handleClick = e => {
@@ -18,9 +19,9 @@ const useClickOutside = (ref, callback) => {
     });
 };
 
-export default function UserSearchBar({ onClickOutside, loading, setLoading, options, setOptions }) {
+export default function UserSearchBar({ onClickOutside, loading, setLoading, options, setOptions, inputValue, setInputValue, clearSearchBar }) {
 
-    const [inputValue, setInputValue] = useState('');
+    const history = useHistory();
 
     const clickRef = useRef();
     useClickOutside(clickRef, onClickOutside);
@@ -35,9 +36,8 @@ export default function UserSearchBar({ onClickOutside, loading, setLoading, opt
             setLoading(true);
             getSearchedUsers(word)
                 .then((res) => {
-                    setOptions(res.data.users);
+                    setOptions(sortOptionsByFollowing(res.data.users));
                     setLoading(false);
-                    sortOptionsByFollowing(options);
                 })
                 .catch((err) =>
                 alert("Houve uma falha ao pesquisar usuários, por favor atualize a página")
@@ -48,7 +48,7 @@ export default function UserSearchBar({ onClickOutside, loading, setLoading, opt
     };
 
     function sortOptionsByFollowing(options) {
-        options.sort((a,b) => a.isFollowingLoggedUser - b.isFollowingLoggedUser);
+        return options.sort((a,b) => b.isFollowingLoggedUser - a.isFollowingLoggedUser);
     }
 
   return (
@@ -70,9 +70,9 @@ export default function UserSearchBar({ onClickOutside, loading, setLoading, opt
                 {loading && <Users>Loading...</Users>}
                 {options.length > 0 &&
                     !loading &&
-                    options.map(({username, avatar, isFollowingLoggedUser}) => (
-                    <Users>
-                        <UserAvatar src={avatar} />
+                    options.map(({id, username, avatar, isFollowingLoggedUser}) => (
+                    <Users onClick={() => { clearSearchBar(); history.push("/user/" + id); history.go(0); }}>
+                        <UserAvatar src={avatar}/>
                         <p>{username}</p>
                         {isFollowingLoggedUser? <span>• following</span> : null}
                     </Users>
@@ -164,6 +164,7 @@ const Users = styled.ul`
     display: flex;
     align-items: center;
     overflow: hidden;    
+    cursor: pointer;
     margin: 8px 12px 8px 17px; 
     p {
         overflow:hidden; 
