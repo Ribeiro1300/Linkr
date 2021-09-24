@@ -1,14 +1,29 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { getSearchedUsers } from "./Api";
 import { AiOutlineSearch } from "react-icons/ai";
 import {DebounceInput} from 'react-debounce-input';
 
-export default function UserSearchBar() {
+const useClickOutside = (ref, callback) => {
+    const handleClick = e => {
+      if (ref.current && !ref.current.contains(e.target)) {
+        callback();
+      }
+    };
+    useEffect(() => {
+      document.addEventListener('click', handleClick);
+      return () => {
+        document.removeEventListener('click', handleClick);
+      };
+    });
+};
+
+export default function UserSearchBar({ onClickOutside, loading, setLoading, options, setOptions }) {
 
     const [inputValue, setInputValue] = useState('');
-    const [options, setOptions] = useState([]);
-    const [loading, setLoading] = useState(false);
+
+    const clickRef = useRef();
+    useClickOutside(clickRef, onClickOutside);
 
     function updateValue(newValue) {
         setInputValue(newValue);
@@ -22,6 +37,7 @@ export default function UserSearchBar() {
                 .then((res) => {
                     setOptions(res.data.users);
                     setLoading(false);
+                    sortOptionsByFollowing(options);
                 })
                 .catch((err) =>
                 alert("Houve uma falha ao pesquisar usuários, por favor atualize a página")
@@ -31,31 +47,34 @@ export default function UserSearchBar() {
         }
     };
 
+    function sortOptionsByFollowing(options) {
+        options.sort((a,b) => a.isFollowingLoggedUser - b.isFollowingLoggedUser);
+    }
+
   return (
-    <SearchBarBox>
-
-            <DebounceInput 
-                minLength={3}
-                debounceTimeout={300}
-                placeholder="Search for people and friends " 
-                type="search"
-                value={inputValue}
-                onChange={(e) => updateValue(e.target.value)}
-                element={SearchInput}
-            />
-            <IconBox>
-                <AiOutlineSearch size="1.6em"/>
-            </IconBox>
-
+    <SearchBarBox ref={clickRef}>
+        <DebounceInput 
+            minLength={3}
+            debounceTimeout={300}
+            placeholder="Search for people and friends " 
+            type="search"
+            value={inputValue}
+            onChange={(e) => updateValue(e.target.value)}
+            element={SearchInput}
+        />
+        <IconBox>
+            <AiOutlineSearch size="1.6em"/>
+        </IconBox>
         <SuggestUsers>
             <UsersList>
                 {loading && <Users>Loading...</Users>}
                 {options.length > 0 &&
                     !loading &&
-                    options.map(({username, avatar}) => (
+                    options.map(({username, avatar, isFollowingLoggedUser}) => (
                     <Users>
                         <UserAvatar src={avatar} />
                         <p>{username}</p>
+                        {isFollowingLoggedUser? <span>• following</span> : null}
                     </Users>
                 ))}
             </UsersList>
@@ -69,8 +88,8 @@ const SearchInput = styled.input`
     height: 45px;
     margin-top: 20px;
     background: #FFFFFF;
-    border-radius: 8px;
     border: none;
+    border-radius: 8px;
     padding-left: 17px;
     padding-right: 45px;
     font-family: Lato;
@@ -87,6 +106,7 @@ const SearchInput = styled.input`
 const SearchBarBox = styled.div`
     position: relative;
     width: 563px;
+    border: none;
     margin-bottom: 25px;
     @media (max-width: 1040px) {
         display: block;
@@ -112,7 +132,8 @@ const SuggestUsers = styled.div`
     height: auto;
     position: fixed;
     background: #E7E7E7;
-    border-radius: 8px;
+    border-bottom-right-radius: 8px 8px;
+    border-bottom-left-radius:  8px 8px;
     border: none;
     font-family: Lato;
     font-style: normal;
@@ -126,7 +147,7 @@ const SuggestUsers = styled.div`
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
     @media (max-width: 1040px) {
-        width: 100%;
+        width: 97%;
     }
 `;
 
@@ -148,6 +169,12 @@ const Users = styled.ul`
         overflow:hidden; 
         white-space: nowrap; 
         text-overflow: ellipsis; 
+    }
+    span {
+        font-size: 19px;
+        color: #C5C5C5;
+        margin: 0 5px 0 5px;
+        white-space:nowrap;
     }
 `;
 

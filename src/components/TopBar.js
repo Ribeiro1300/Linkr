@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import React, { useState, useEffect, useRef } from "react";
+import PropTypes from "prop-types";
 import { Link, useHistory } from "react-router-dom";
 import { IoChevronDown, IoChevronUp } from "react-icons/io5";
 import { getFollowedUsers } from "./Api";
@@ -10,6 +11,8 @@ export default function TopBar() {
   const [avatar,setAvatar] = useState('');
   const [isActive, setIsActive] = useState(false);
   const [followedUsers,setFollowedUsers] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [options, setOptions] = useState([]);
 
   const history = useHistory();
   
@@ -42,7 +45,17 @@ export default function TopBar() {
       <Logo>
         <StyledLink to="/timeline"><h2>Linkr</h2></StyledLink>
       </Logo>
-      <UserSearchBar/>
+      <UserSearchBar 
+      loading={loading} 
+      setLoading={setLoading}
+      options={options}
+      setOptions={setOptions}
+      onClickOutside={() => { 
+        setLoading(false);
+        setOptions([]);
+      }}
+
+      />
           <UserBox onClick={onClick} >
             { isActive ? <IoChevronUp size="1.8em"/> : <IoChevronDown size="1.8em"/> }
             <UserAvatar src={avatar} />
