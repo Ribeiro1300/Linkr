@@ -163,6 +163,17 @@ function generateConfig() {
   };
   return config;
 }
+function getFollowedUsersPosts() {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("auth")}`,
+    },
+  };
+  return axios.get(
+    `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/following/posts`,
+    config
+  );
+}
 
 export {
   LoginReq,
@@ -179,6 +190,7 @@ export {
   followUser,
   unFollowUser,
   getFollowedUsers,
+  getFollowedUsersPosts,
   sendPostEdit,
   sendDeletePost,
 };

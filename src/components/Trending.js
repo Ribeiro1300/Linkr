@@ -4,37 +4,43 @@ import React, { useEffect, useState } from "react";
 import { getTrendingHashtags } from "./Api";
 
 export default function Trending() {
-
   const history = useHistory();
 
-  const [trendingHashtags, setTrendingHashtags] = useState([]); 
-  const [searchHashtag, setSearchHashtag] = useState(); 
+  const [trendingHashtags, setTrendingHashtags] = useState([]);
+  const [searchHashtag, setSearchHashtag] = useState();
 
   useEffect(() => {
-
     getTrendingHashtags()
       .then((res) => setTrendingHashtags(res.data.hashtags))
       .catch((err) =>
-        alert("Houve uma falha ao obter as trending hashtags, por favor atualize a página")
+        alert(
+          "Houve uma falha ao obter as trending hashtags, por favor atualize a página"
+        )
       );
-
-  }, []); 
+  }, []);
 
   return (
     <TrendingContainer>
       <TrendingBox>
         <TrendingText>trending</TrendingText>
-        <Line/>
-          {trendingHashtags.map( trendingHashtags => <HashtagText onClick={ () => history.push(`/hashtag/:${trendingHashtags.name}`) }>
-            # {trendingHashtags.name}</HashtagText> )}
+        <Line />
+        {trendingHashtags.map((trendingHashtags) => (
+          <HashtagText
+            key={trendingHashtags.id}
+            onClick={() => history.push(`/hashtag/:${trendingHashtags.name}`)}
+          >
+            # {trendingHashtags.name}
+          </HashtagText>
+        ))}
         <SearchHashtagBox>
           <HashtagIcon>#</HashtagIcon>
-          <form onSubmit={() => history.push(`/hashtag/:${searchHashtag}`)} >
-            <HashtagInput 
-            placeholder="type a hashtag" 
-            type="text" 
-            value={searchHashtag}
-            onChange={(e) => setSearchHashtag(e.target.value)}/>
+          <form onSubmit={() => history.push(`/hashtag/:${searchHashtag}`)}>
+            <HashtagInput
+              placeholder="type a hashtag"
+              type="text"
+              value={searchHashtag}
+              onChange={(e) => setSearchHashtag(e.target.value)}
+            />
           </form>
         </SearchHashtagBox>
       </TrendingBox>
@@ -68,7 +74,7 @@ const TrendingText = styled.h1`
   font-style: normal;
   font-weight: bold;
   font-size: 27px;
-  color: #FFFFFF;
+  color: #ffffff;
   line-height: 33px;
   margin: 9px 16px 12px 16px;
 `;
@@ -87,11 +93,11 @@ const HashtagText = styled.h2`
   font-size: 19px;
   line-height: 30px;
   letter-spacing: 0.05em;
-  color: #FFFFFF;
+  color: #ffffff;
   margin: 0 16px 0 16px;
   word-break: break-all;
   cursor: pointer;
-`; 
+`;
 
 const SearchHashtagBox = styled.div`
   display: flex;
@@ -101,7 +107,7 @@ const SearchHashtagBox = styled.div`
   margin-top: 10px;
   font-family: Lato;
   font-weight: bold;
-  color: #FFFFFF;
+  color: #ffffff;
   font-size: 19px;
 `;
 
@@ -121,7 +127,7 @@ const HashtagInput = styled.input`
   padding-bottom: 7px;
   font-family: Lato;
   font-weight: bold;
-  color: #FFFFFF;
+  color: #ffffff;
   font-size: 19px;
   ::placeholder {
     font-family: Lato;
