@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router";
 import { sendCreatePost } from "./Api";
 import styled from "styled-components";
+import { IoLocationOutline } from 'react-icons/io5';
 
 export default function CreatePost() {
 
@@ -9,7 +10,7 @@ export default function CreatePost() {
     const [postURL,setPostURL] = useState('');
     const [postDescription,setPostDescription] = useState('');
     const [isPublishing, setIsPublishing] = useState(false)
-
+    const [isLocationEnabled,setIsLocationEnabled] = useState(true)
     const history = useHistory();
 
     useEffect(() => {
@@ -19,15 +20,24 @@ export default function CreatePost() {
     function publishPost (event) {
 
         event.preventDefault();
+        let usersLocation
 
         if ( postURL === '' || postURL === null ) {
             alert("Por favor preencha o link que queira compartilhar")
             return
         }
 
-        const promise = sendCreatePost({"text":postDescription, "link":postURL})
+        if (isLocationEnabled) {
+            usersLocation = getLocation(setIsLocationEnabled)
+        };
+
+
+        console.log(getLocation(setIsLocationEnabled));
+
+
+        const promise = sendCreatePost(bodyBuilder(postDescription,postURL))
         promise
-            .then(res => history.push("/"))
+            .then(res => {history.push("/");console.log(res);})
             .catch(err => {
                 setIsPublishing(false)
                 alert("Houve um erro ao publicar seu link")
@@ -44,6 +54,11 @@ export default function CreatePost() {
             <form onSubmit={publishPost}>
                 <LinkInput type="url" name="postURL" placeholder="http://..." onChange={(e) => setPostURL(e.target.value)} value={postURL} required disabled={isPublishing}/>
                 <DescriptionInput type="text" name="postDescription" onChange={(e) => setPostDescription(e.target.value)} value={postDescription} placeholder="Descrição" wrap="soft"disabled={isPublishing}/>
+                <Location onClick={()=>{setIsLocationEnabled(!isLocationEnabled)}} disabled={!isLocationEnabled}>
+                    <IoLocationOutline />
+                    {isLocationEnabled?"Localização ativada":"Localização desativada"}
+                </Location>
+                
                 <PublishButton type="submit" disabled={isPublishing}>
                     {isPublishing ? "Publicando" : "Publicar" }
                 </PublishButton>
@@ -52,6 +67,51 @@ export default function CreatePost() {
     </CreatePostBox>
   );
 }
+
+
+function bodyBuilder(text,link,lat="",long){
+    let body = ""
+    if (lat === ""){
+        body = {
+            "text": text,
+            "link": link,
+        }
+    }
+    else{
+        body = {
+            "text": text,
+            "link": link,
+            "geolocation": {
+                "latitude": lat,
+                "longitude": long
+            }
+        }
+    }
+    return body
+}
+
+
+function getLocation(setIsLocationEnabled){
+    let locationValues = {}
+    const success = (pos)=>{
+        // locationValues = {
+        //     latitude: pos.coords.latitude,
+        //     longitude: pos.coords.longitude
+        // }
+        locationValues = pos
+        console.log(locationValues);
+    }
+
+    const error = ()=>{
+        alert("Seu navegador não suporta essa feature");
+        setIsLocationEnabled(false);
+    }
+
+    navigator.geolocation.getCurrentPosition(success, error);
+    return locationValues
+}
+
+
 
 const CreatePostBox = styled.div`
     display: flex;
@@ -136,4 +196,15 @@ const PublishButton = styled.button`
     :disabled {
         background-color: grey;
     }
+`;
+
+const Location = styled.button`
+    width: 170px;
+    border: none;
+    cursor: pointer;
+    color: green;
+    background-color: white;
+    :disabled {
+            color: black;
+        }
 `;

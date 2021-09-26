@@ -3,10 +3,12 @@ import { Link, useHistory } from "react-router-dom";
 import { useState } from "react";
 import ReactHashtag from "react-hashtag";
 import LikeButton from "./LikeButton";
+import Renderlocation from "./RenderLocation"
 import React from "react";
 import axios from "axios";
 import EditPost from "./EditPost";
 import DeletePost from "./DeletePost";
+import {IoLocationSharp} from "react-icons/io5"
 
 export default function Posts({ postsList, setReload }) {
   const history = useHistory();
@@ -48,6 +50,7 @@ export default function Posts({ postsList, setReload }) {
           <PostData>
               <Link to={"/user/" + info.user.id} style={{ textDecoration: 'none' }}>
                 <h3>{info.user.username}</h3>
+                <IoLocationSharp onClick={()=>Renderlocation(info)}/>
               </Link>
               {info.user.id.toString() == userID ? (
                 <>
