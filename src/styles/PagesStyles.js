@@ -15,9 +15,14 @@ const PageTitle = styled.h2`
   color: white;
   margin-bottom: 50px;
 `;
+
 const Content = styled.div`
   width: 620px;
   margin-top: 60px;
+
+  @media (max-width: 413) {
+    width: 100%;
+  }
 `;
 const NewPost = styled.div`
   width: 100%;
@@ -27,6 +32,10 @@ const NewPost = styled.div`
   margin-bottom: 30px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 16px;
+
+  @media (max-width: 413) {
+    width: 100%;
+  }
 `;
 
 export { Container, PageTitle, Content, NewPost };
