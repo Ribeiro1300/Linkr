@@ -20,6 +20,12 @@ export default function Timeline() {
       history.push("/");
       return;
     }
+    getFollowedUsersPosts().then((res) => {
+      let followedUsersPosts = res.data.posts.filter((info) =>info.user.id != JSON.parse(localStorage.getItem("user")).id);
+          setAllPosts(followedUsersPosts);
+        }).catch((err) =>alert("Houve uma falha ao obter os posts, por favor atualize a página"));
+      setIsLoading(false);
+
     let id = setInterval(() => {
       getFollowedUsers().then((res) => {
         if (res.data.users == []) {
@@ -53,6 +59,7 @@ export default function Timeline() {
       <Posts postsList={allPosts} setReload={setReload} />
     );
   }
+  
   return (
     <Container>
       <Content>
