@@ -187,6 +187,29 @@ function getSearchedUsers(userSearched) {
   );
   }
 
+  function getComments(postID) {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("auth")}`,
+      },
+    };
+  
+    return axios.get(
+      `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/posts/${postID}/comments`,
+      config
+    );
+  }
+  
+  function sendComment(postID, body) {
+    const config = generateConfig();
+  
+    return axios.post(
+      `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/posts/${postID}/comment`,
+      body,
+      config
+    );
+  }
+
 export {
   LoginReq,
   SignupReq,
@@ -206,4 +229,6 @@ export {
   sendPostEdit,
   sendDeletePost,
   getSearchedUsers,
+  getComments,
+  sendComment,
 };
