@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { getTrendingHashtags } from "./Api";
 
 export default function Trending() {
+
   const history = useHistory();
 
   const [trendingHashtags, setTrendingHashtags] = useState([]);
@@ -12,7 +13,7 @@ export default function Trending() {
   useEffect(() => {
     getTrendingHashtags()
       .then((res) => setTrendingHashtags(res.data.hashtags))
-      .catch((err) =>
+      .catch(() =>
         alert(
           "Houve uma falha ao obter as trending hashtags, por favor atualize a página"
         )
@@ -34,10 +35,15 @@ export default function Trending() {
         ))}
         <SearchHashtagBox>
           <HashtagIcon>#</HashtagIcon>
-          <form onSubmit={() => history.push(`/hashtag/:${searchHashtag}`)}>
+          <form onSubmit={(e) => {
+            e.preventDefault();
+            e.target.reset();
+            history.push(`/hashtag/:${searchHashtag}`);
+            setSearchHashtag();
+          }}>
             <HashtagInput
               placeholder="type a hashtag"
-              type="text"
+              type="search"
               value={searchHashtag}
               onChange={(e) => setSearchHashtag(e.target.value)}
             />
