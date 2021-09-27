@@ -93,6 +93,10 @@ const Post = styled.div`
   margin-bottom: 20px;
   color: #ffff;
   padding: 10px;
+
+  @media (max-width: 413) {
+    width: 100%;
+  }
 `;
 const ProfileAndLikes = styled.div`
   display: flex;
@@ -100,6 +104,7 @@ const ProfileAndLikes = styled.div`
   justify-content: flex-start;
   align-items: center;
   width: 15%;
+
   img {
     width: 70px;
     height: 70px;
