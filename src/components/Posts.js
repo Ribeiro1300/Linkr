@@ -7,6 +7,7 @@ import React from "react";
 import axios from "axios";
 import EditPost from "./EditPost";
 import DeletePost from "./DeletePost";
+import getYouTubeID from "get-youtube-id";
 
 export default function Posts({ postsList, setReload }) {
   const history = useHistory();
@@ -29,6 +30,24 @@ export default function Posts({ postsList, setReload }) {
         history.push("/timeline");
       })
       .catch(() => alert("Não foi possível excluir o post, tente novamente!"));
+  }
+
+  function setYoutubePlayer (info) {
+    const videoId = getYouTubeID(info.link)
+    console.log(videoId)
+    if (videoId === null) {
+      return (
+        <LinkInfo href={info.link} target="_blank">
+          <LinkTexts>
+            <h4>{info.linkTitle}</h4>
+            <p>{info.linkDescription}</p>
+            <p>{info.link}</p>
+          </LinkTexts>
+          <img src={info.linkImage}></img>
+        </LinkInfo>
+      )
+    }
+    return <iframe src={`https://www.youtube.com/embed/${videoId}`} height='300' allowFullScreen></iframe>
   }
 
   return (
@@ -65,14 +84,8 @@ export default function Posts({ postsList, setReload }) {
                   </ReactHashtag>
                 </h5>
               )}
-            <LinkInfo href={info.link} target="_blank">
-              <LinkTexts>
-                <h4>{info.linkTitle}</h4>
-                <p>{info.linkDescription}</p>
-                <p>{info.link}</p>
-              </LinkTexts>
-              <img src={info.linkImage}></img>
-            </LinkInfo>
+            {setYoutubePlayer(info)}
+            
           </PostData>
         </Post>
       ))}
