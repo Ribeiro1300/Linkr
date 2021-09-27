@@ -1,11 +1,18 @@
 import styled from "styled-components";
 import React, { useState, useEffect, useRef } from "react";
+import PropTypes from "prop-types";
 import { Link, useHistory } from "react-router-dom";
 import { IoChevronDown, IoChevronUp } from "react-icons/io5";
+import { getFollowedUsers } from "./Api";
+import UserSearchBar from "./UserSearchBar";
 
 export default function TopBar() {
   const [avatar, setAvatar] = useState("");
   const [isActive, setIsActive] = useState(false);
+  const [followedUsers,setFollowedUsers] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [options, setOptions] = useState([]);
+  const [inputValue, setInputValue] = useState('');
 
   const history = useHistory();
 
@@ -18,43 +25,60 @@ export default function TopBar() {
       return;
     }
 
-    setAvatar(JSON.parse(localStorage.getItem('user')).avatar );
+    getFollowedUsers()
+        .then((res) => setFollowedUsers(res.data.users))
+        .catch((err) =>
+        alert("Houve uma falha ao obter os usuários que você segue, por favor atualize a página")
+    );
+
+    setAvatar( JSON.parse(localStorage.getItem('user')).avatar );
   }, []);
 
   function Logout() {
     localStorage.clear();
   }
 
-  return (
+  function clearSearchBar() {
+    setLoading(false);
+    setOptions([]);
+    setInputValue('');
+  }
+
+  return ( 
+
     <Top>
       <Logo>
         <StyledLink to="/timeline">
           <h2>Linkr</h2>
         </StyledLink>
       </Logo>
-      <UserBox onClick={onClick}>
-        {isActive ? (
-          <IoChevronUp size="1.8em" />
-        ) : (
-          <IoChevronDown size="1.8em" />
-        )}
-        <UserAvatar src={avatar} />
-      </UserBox>
-      <Menu active={isActive}>
-        <ul>
-          <li>
-            <StyledLink to="/my-posts">My posts</StyledLink>
-          </li>
-          <li>
-            <StyledLink to="/my-likes">My likes</StyledLink>
-          </li>
-          <li>
-            <StyledLink to="/" onClick={Logout}>
-              Logout
-            </StyledLink>
-          </li>
-        </ul>
-      </Menu>
+      <UserSearchBar 
+        loading={loading} 
+        setLoading={setLoading}
+        options={options}
+        setOptions={setOptions}
+        inputValue={inputValue}
+        setInputValue={setInputValue}
+        onClickOutside={clearSearchBar}
+        clearSearchBar={clearSearchBar}
+      />
+          <UserBox onClick={onClick} >
+            { isActive ? <IoChevronUp size="1.8em"/> : <IoChevronDown size="1.8em"/> }
+            <UserAvatar src={avatar} />
+          </UserBox>
+        <Menu active={isActive}>
+          <ul>
+            <li>
+              <StyledLink to="/my-posts">My posts</StyledLink>
+            </li>
+            <li>
+              <StyledLink to="/my-likes">My likes</StyledLink>
+            </li>
+            <li>
+              <StyledLink to="/" onClick={Logout} >Logout</StyledLink>
+            </li>
+          </ul>
+        </Menu>
     </Top>
   );
 }

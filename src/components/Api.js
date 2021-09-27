@@ -175,28 +175,40 @@ function getFollowedUsersPosts() {
   );
 }
 
-function getComments(postID) {
+function getSearchedUsers(userSearched) {
   const config = {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("auth")}`,
-    },
+  headers: {
+  Authorization: `Bearer ${localStorage.getItem("auth")}`,
+  },
   };
-
   return axios.get(
-    `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/posts/${postID}/comments`,
-    config
+  `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/users/search?username=${userSearched}`,
+  config 
   );
-}
+  }
 
-function sendComment(postID, body) {
-  const config = generateConfig();
-
-  return axios.post(
-    `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/posts/${postID}/comment`,
-    body,
-    config
-  );
-}
+  function getComments(postID) {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("auth")}`,
+      },
+    };
+  
+    return axios.get(
+      `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/posts/${postID}/comments`,
+      config
+    );
+  }
+  
+  function sendComment(postID, body) {
+    const config = generateConfig();
+  
+    return axios.post(
+      `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/posts/${postID}/comment`,
+      body,
+      config
+    );
+  }
 
 export {
   LoginReq,
@@ -216,6 +228,7 @@ export {
   getFollowedUsersPosts,
   sendPostEdit,
   sendDeletePost,
+  getSearchedUsers,
   getComments,
   sendComment,
 };
