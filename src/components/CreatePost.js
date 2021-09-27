@@ -54,7 +54,7 @@ export default function CreatePost() {
             <form onSubmit={publishPost}>
                 <LinkInput type="url" name="postURL" placeholder="http://..." onChange={(e) => setPostURL(e.target.value)} value={postURL} required disabled={isPublishing}/>
                 <DescriptionInput type="text" name="postDescription" onChange={(e) => setPostDescription(e.target.value)} value={postDescription} placeholder="Descrição" wrap="soft"disabled={isPublishing}/>
-                <Location onClick={()=>{setIsLocationEnabled(!isLocationEnabled)}} disabled={!isLocationEnabled}>
+                <Location onClick={()=>{setIsLocationEnabled(!isLocationEnabled)}} isLocationEnabled={isLocationEnabled}>
                     <IoLocationOutline />
                     {isLocationEnabled?"Localização ativada":"Localização desativada"}
                 </Location>
@@ -202,9 +202,7 @@ const Location = styled.button`
     width: 170px;
     border: none;
     cursor: pointer;
-    color: green;
+    color: ${props=>props.isLocationEnabled?"green":"black"};
     background-color: white;
-    :disabled {
-            color: black;
-        }
+    
 `;
