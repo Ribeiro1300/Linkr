@@ -3,6 +3,7 @@ import { Link, useHistory } from "react-router-dom";
 import { useState } from "react";
 import ReactHashtag from "react-hashtag";
 import LikeButton from "./LikeButton";
+import CommentButton from "./CommentButton";
 import React from "react";
 import axios from "axios";
 import EditPost from "./EditPost";
@@ -42,6 +43,10 @@ export default function Posts({ postsList, setReload }) {
             <LikeButton
               info={info}
               id={"likeContainer-" + index}
+              index={index}
+            />
+            <CommentButton
+              info={info}
               index={index}
             />
           </ProfileAndLikes>

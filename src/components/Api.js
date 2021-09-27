@@ -164,6 +164,19 @@ function generateConfig() {
   return config;
 }
 
+function getComments(postID) {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("auth")}`,
+    },
+  };
+
+  return axios.get(
+    `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/posts/${postID}/comments`,
+    config
+  );
+}
+
 export {
   LoginReq,
   SignupReq,
@@ -181,4 +194,5 @@ export {
   getFollowedUsers,
   sendPostEdit,
   sendDeletePost,
+  getComments,
 };
