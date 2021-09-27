@@ -34,7 +34,6 @@ export default function Posts({ postsList, setReload }) {
 
   function setYoutubePlayer (info) {
     const videoId = getYouTubeID(info.link)
-    console.log(videoId)
     if (videoId === null) {
       return (
         <LinkInfo href={info.link} target="_blank">
@@ -47,7 +46,12 @@ export default function Posts({ postsList, setReload }) {
         </LinkInfo>
       )
     }
-    return <iframe src={`https://www.youtube.com/embed/${videoId}`} height='300' allowFullScreen></iframe>
+    return (
+      <>
+        <iframe src={`https://www.youtube.com/embed/${videoId}`} height='300' allowFullScreen></iframe>
+        <a href={info.link}>{info.link}</a>
+      </>
+    )
   }
 
   return (
@@ -102,6 +106,14 @@ const Post = styled.div`
   margin-bottom: 20px;
   color: #ffff;
   padding: 10px;
+  a {
+    :visited, :link {
+        color: white;
+    }
+    :hover {
+        color: white;
+    }
+  }
 
   @media (max-width: 413) {
     width: 100%;
