@@ -69,11 +69,13 @@ export default function EditPost({ info, setReload }) {
           />
         </form>
       ) : (
-        <ReactHashtag
-          onHashtagClick={(val) => history.push("/hashtag/:" + val.slice(1))}
-        >
-          {info.text}
-        </ReactHashtag>
+        <h5>
+          <ReactHashtag
+            onHashtagClick={(val) => history.push("/hashtag/:" + val.slice(1))}
+          >
+            {info.text}
+          </ReactHashtag>
+        </h5>
       )}
     </>
   );
@@ -84,6 +86,7 @@ const EditPostIcon = styled.div`
   top: 0;
   right: 30px;
   cursor: pointer;
+  margin-right: 8px;
 `;
 
 const PostTextInput = styled.textarea`
