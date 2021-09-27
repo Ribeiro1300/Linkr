@@ -7,7 +7,7 @@ import { AiOutlineComment } from 'react-icons/ai';
 import { IconContext } from "react-icons/lib";
 
 
-export default function LikeButton ({info, index, openCommentsContainer}) {
+export default function CommentButton ({info, index, openCommentsContainer}) {
 
     const history = useHistory();
 

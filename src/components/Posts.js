@@ -88,8 +88,7 @@ export default function Posts({ postsList, setReload }) {
             </LinkInfo>
           </PostData>
         </Post>
-        {commentsOpen ? <CommentsContainer info={info}
-              index={index}/> : null}
+        <CommentsContainer info={info} index={index} commentsOpen={commentsOpen}/>
         </>
       ))}
     </>

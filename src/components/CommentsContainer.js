@@ -4,7 +4,7 @@ import { Link, useHistory } from "react-router-dom";
 import { getComments, getFollowedUsers, sendComment } from "./Api";
 import { FiSend } from "react-icons/fi";
 
-export default function CommentsContainer ({info, index}) {
+export default function CommentsContainer ({info, index, commentsOpen}) {
 
     const history = useHistory();
 
@@ -56,55 +56,60 @@ export default function CommentsContainer ({info, index}) {
     }
 
     return (
-        <CommentsBox>
-            <ul>
-                <li>
-                    {postComments.map( ({text, user}) => <>
-                    <CommentBox>
-                        <Link to={"/user/" + user.id}>
-                            <UserAvatar src={user.avatar} />
-                        </Link>
-                        <InfoBox>
-                            <h3>
-                                {user.username} 
-                                {user.id == info.user.id ? <span> • post’s author</span> : null} 
-                                {followedUsers.includes(user) ? <span> • following</span> : null}
-                            </h3>
-                            <h5>
-                                {text}
-                            </h5>
-                        </InfoBox>
-                    </CommentBox>
-                    <Line/>
-                    </>
-                    )}
-                </li>
-                <li>
-                    <NewCommentBox>
-                        <UserAvatar src={avatar} />
-                        <form onSubmit={publishComment}>
-                            <CommentInput 
-                                type="text" 
-                                name="comment" 
-                                placeholder="write a comment..." 
-                                onChange={(e) => setCommentWrote(e.target.value)} 
-                                value={commentWrote} 
-                                required disabled={isPublishing}
-                            />
-                            <IconBox onClick={publishComment}>
-                                <FiSend size="1.2em"/>
-                            </IconBox>   
-                        </form>
-                    </NewCommentBox>
-                </li>
-            </ul>
-        </CommentsBox>
+        <>
+        {commentsOpen ? 
+            <CommentsBox>
+                <ul>
+                    <li>
+                        {postComments.map( ({text, user}) => <>
+                        <CommentBox>
+                            <Link to={"/user/" + user.id}>
+                                <UserAvatar src={user.avatar} />
+                            </Link>
+                            <InfoBox>
+                                <h3>
+                                    {user.username} 
+                                    {user.id == info.user.id ? <span> • post’s author</span> : null} 
+                                    {followedUsers.includes(user) ? <span> • following</span> : null}
+                                </h3>
+                                <h5>
+                                    {text}
+                                </h5>
+                            </InfoBox>
+                        </CommentBox>
+                        <Line/>
+                        </>
+                        )}
+                    </li>
+                    <li>
+                        <NewCommentBox>
+                            <UserAvatar src={avatar} />
+                            <form onSubmit={publishComment}>
+                                <CommentInput 
+                                    type="text" 
+                                    name="comment" 
+                                    placeholder="write a comment..." 
+                                    onChange={(e) => setCommentWrote(e.target.value)} 
+                                    value={commentWrote} 
+                                    required disabled={isPublishing}
+                                />
+                                <IconBox onClick={publishComment}>
+                                    <FiSend size="1.2em"/>
+                                </IconBox>   
+                            </form>
+                        </NewCommentBox>
+                    </li>
+                </ul>
+            </CommentsBox> 
+         : null } 
+        </>
     )
 }
 
 const CommentsBox = styled.div`
     width: 100%;
-    height: auto;
+    max-height: 300px;
+    overflow: scroll;
     margin-top: -20px;
     margin-bottom: 20px;
     padding-top: 0px;
