@@ -7,8 +7,7 @@ import { getFollowedUsers } from "./Api";
 import UserSearchBar from "./UserSearchBar";
 
 export default function TopBar() {
-
-  const [avatar,setAvatar] = useState('');
+  const [avatar, setAvatar] = useState("");
   const [isActive, setIsActive] = useState(false);
   const [followedUsers,setFollowedUsers] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -16,11 +15,10 @@ export default function TopBar() {
   const [inputValue, setInputValue] = useState('');
 
   const history = useHistory();
-  
+
   const onClick = () => setIsActive(!isActive);
 
   useEffect(() => {
-
     if (!localStorage.getItem("auth")) {
       alert("Faça login antes!");
       history.push("/");
@@ -50,7 +48,9 @@ export default function TopBar() {
 
     <Top>
       <Logo>
-        <StyledLink to="/timeline"><h2>Linkr</h2></StyledLink>
+        <StyledLink to="/timeline">
+          <h2>Linkr</h2>
+        </StyledLink>
       </Logo>
       <UserSearchBar 
         loading={loading} 
@@ -80,7 +80,6 @@ export default function TopBar() {
           </ul>
         </Menu>
     </Top>
-
   );
 }
 
@@ -94,6 +93,13 @@ const Top = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 0 17px 0 28px;
+  z-index: 100;
+
+  @media (max-width: 413) {
+    width: 100%;
+    position: fixed;
+    top: 0px;
+  }
 `;
 
 const Logo = styled.div`
@@ -103,14 +109,14 @@ const Logo = styled.div`
   align-items: center;
   justify-content: center;
   font-weight: bold;
-  color: #FFFFFF;
+  color: #ffffff;
   background-color: #151515;
   letter-spacing: 4px;
   h2 {
-    font-family: 'Passion One', cursive;
+    font-family: "Passion One", cursive;
     font-size: 49px;
     text-decoration: none;
-    color: #FFFFFF;
+    color: #ffffff;
   }
 `;
 
@@ -142,9 +148,10 @@ const Menu = styled.nav`
   height: auto;
   background: #171717;
   border-radius: 0px 0px 20px 20px;
-  opacity: ${props => (props.active ? '1' : '0')};
-  visibility: ${props => (props.active ? 'visible' : 'hidden')};
-  transform: ${props => (props.active ? 'translateY(-20px)' : 'translateY(0);')};
+  opacity: ${(props) => (props.active ? "1" : "0")};
+  visibility: ${(props) => (props.active ? "visible" : "hidden")};
+  transform: ${(props) =>
+    props.active ? "translateY(-20px)" : "translateY(0);"};
   transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
   font-family: Lato;
   font-style: normal;
@@ -152,21 +159,27 @@ const Menu = styled.nav`
   font-size: 17px;
   line-height: 20px;
   letter-spacing: 0.05em;
-  color: #FFFFFF;
+  color: #ffffff;
+
   ul {
     list-style: none;
     padding: 0;
     margin: 0;
   }
+
   li {
     margin: 5px 0 5px 0;
   }
 `;
 
 const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: #ffffff;
+  &:focus,
+  &:hover,
+  &:visited,
+  &:link,
+  &:active {
     text-decoration: none;
-    color: #FFFFFF;
-    &:focus, &:hover, &:visited, &:link, &:active {
-        text-decoration: none;
-    }
+  }
 `;

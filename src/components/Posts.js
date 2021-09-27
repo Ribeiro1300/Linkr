@@ -46,24 +46,25 @@ export default function Posts({ postsList, setReload }) {
             />
           </ProfileAndLikes>
           <PostData>
-            <h3>
-              {info.user.username}
+              <Link to={"/user/" + info.user.id} style={{ textDecoration: 'none' }}>
+                <h3>{info.user.username}</h3>
+              </Link>
               {info.user.id.toString() == userID ? (
-                <EditWrapper>
+                <>
                   <DeletePost info={info} />
                   <EditPost info={info} setReload={setReload} />
-                </EditWrapper>
-              ) : null}
-            </h3>
-            {
-              <ReactHashtag
-                onHashtagClick={(val) =>
-                  history.push("/hashtag/:" + val.slice(1))
-                }
-              >
-                {info.text}
-              </ReactHashtag>
-            }
+                </>
+              ) : (
+                <h5>
+                  <ReactHashtag
+                    onHashtagClick={(val) =>
+                      history.push("/hashtag/:" + val.slice(1))
+                    }
+                  >
+                    {info.text}
+                  </ReactHashtag>
+                </h5>
+              )}
             <LinkInfo href={info.link} target="_blank">
               <LinkTexts>
                 <h4>{info.linkTitle}</h4>
@@ -88,13 +89,19 @@ const Post = styled.div`
   margin-bottom: 20px;
   color: #ffff;
   padding: 10px;
+
+  @media (max-width: 413) {
+    width: 100%;
+  }
 `;
+
 const ProfileAndLikes = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   width: 15%;
+
   img {
     width: 70px;
     height: 70px;
@@ -103,6 +110,7 @@ const ProfileAndLikes = styled.div`
     margin-top: 10px;
   }
 `;
+
 const PostData = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -110,9 +118,26 @@ const PostData = styled.div`
   flex-direction: column;
   justify-content: center;
   position: relative;
+  font-family: Lato;
+  font-style: normal;
+  font-weight: normal;
   h3 {
-    display: flex;
-    justify-content: space-between;
+    font-size: 19px;
+    color: #FFFFFF;
+    margin-bottom: 8px;
+    margin-top: 10px;
+    word-break: break-word;
+  }
+  h5 {
+    font-size: 17px;
+    line-height: 20px;
+    color: #B7B7B7;
+    word-break: break-word;
+    margin-bottom: 8px;
+    span {
+      font-weight: bold;
+      color: #FFFFFF;
+    }
   }
 `;
 
@@ -128,16 +153,10 @@ const LinkInfo = styled.a`
     border-radius: 10px;
   }
 `;
+
 const LinkTexts = styled.div`
   width: 100%;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
-`;
-const EditWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  background-color: red;
-  position: relative;
 `;
