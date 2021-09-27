@@ -7,7 +7,7 @@ import { AiOutlineComment } from 'react-icons/ai';
 import { IconContext } from "react-icons/lib";
 
 
-export default function LikeButton ({info,index}) {
+export default function LikeButton ({info, index, openCommentsContainer}) {
 
     const history = useHistory();
 
@@ -22,15 +22,13 @@ export default function LikeButton ({info,index}) {
 
         getComments(info.id)
             .then(res => setComments(res.data.comments))
-            
             .catch(err => console.log(err))
 
-       console.log(comments)
     }, []);
 
 
     return (
-        <CommentIconBox>
+        <CommentIconBox onClick={openCommentsContainer}>
             <AiOutlineComment/>
             <p>{comments.length} comments</p>
         </CommentIconBox>
@@ -41,7 +39,7 @@ const CommentIconBox = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    cursor: pointer;
+    cursor: pointer;    
     margin-top: 5px;
     p {
         margin-top: 3px;

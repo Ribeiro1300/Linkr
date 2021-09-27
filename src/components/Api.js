@@ -188,6 +188,16 @@ function getComments(postID) {
   );
 }
 
+function sendComment(postID, body) {
+  const config = generateConfig();
+
+  return axios.post(
+    `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/posts/${postID}/comment`,
+    body,
+    config
+  );
+}
+
 export {
   LoginReq,
   SignupReq,
@@ -207,4 +217,5 @@ export {
   sendPostEdit,
   sendDeletePost,
   getComments,
+  sendComment,
 };

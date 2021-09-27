@@ -8,11 +8,14 @@ import React from "react";
 import axios from "axios";
 import EditPost from "./EditPost";
 import DeletePost from "./DeletePost";
+import CommentsContainer from "./CommentsContainer";
 
 export default function Posts({ postsList, setReload }) {
   const history = useHistory();
   const [modalIsOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [commentsOpen, setCommentsOpen] = useState(false);
+  const [postIDComment, setPostIDComment] = useState("");
 
   const [userID, setPostText] = useState(
     JSON.parse(localStorage.getItem("user")).id
@@ -32,9 +35,13 @@ export default function Posts({ postsList, setReload }) {
       .catch(() => alert("Não foi possível excluir o post, tente novamente!"));
   }
 
+  function openCommentsContainer() {
+    setCommentsOpen(!commentsOpen);
+  }
+
   return (
     <>
-      {postsList.map((info, index) => (
+      {postsList.map((info, index) => (<>
         <Post key={info.id}>
           <ProfileAndLikes>
             <Link to={"/user/" + info.user.id}>
@@ -48,6 +55,7 @@ export default function Posts({ postsList, setReload }) {
             <CommentButton
               info={info}
               index={index}
+              openCommentsContainer={openCommentsContainer}
             />
           </ProfileAndLikes>
           <PostData>
@@ -79,6 +87,9 @@ export default function Posts({ postsList, setReload }) {
             </LinkInfo>
           </PostData>
         </Post>
+        {commentsOpen ? <CommentsContainer info={info}
+              index={index}/> : null}
+        </>
       ))}
     </>
   );
@@ -90,6 +101,7 @@ const Post = styled.div`
   width: 100%;
   background-color: #171717;
   border-radius: 10px;
+  z-index:4;
   margin-bottom: 20px;
   color: #ffff;
   padding: 10px;
